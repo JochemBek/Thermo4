@@ -10,15 +10,21 @@ export class ThermostatPage {
   currentTemp: number;
   targetTemp: number;
   locked: boolean;
+  currentDay: string;
+  currentTime: string;
 
   constructor(public navCtrl: NavController, private thermoService:ThermoService) {
     this.getLock(); 
     this.getCurrentTemperature(); 
     this.getTargetTemperature(); 
+    this.getCurrentDay();
+    this.getCurrentTime();
    
     var temp = this;
     setInterval(function() {
       temp.getCurrentTemperature();
+      temp.getCurrentDay();
+      temp.getCurrentTime();
     }, 100);
   }
 
@@ -39,12 +45,18 @@ export class ThermostatPage {
   }
  
   getTargetTemperature(){ 
-    this.thermoService.get("targetTemperature").subscribe(response => {
-      this.targetTemp = response.target_temperature;
-    });
+      this.thermoService.get("targetTemperature").subscribe(response => {
+        this.targetTemp = response.target_temperature;
+      });
   }
 
   setTargetTemp(){
+    if(this.targetTemp > 30) {
+      this.targetTemp = 30;
+    } 
+    if(this.targetTemp < 5) {
+      this.targetTemp = 5;
+    }
     this.thermoService.put("targetTemperature", {"target_temperature" : (this.targetTemp).toString()}).subscribe();
     console.log("go");
   }
@@ -52,27 +64,19 @@ export class ThermostatPage {
   tempUp(){
     if(this.targetTemp < 29.6) {
       this.targetTemp = this.targetTemp + 0.5;
-      this.setTargetTemp();
     } else {
+      this.targetTemp = 30;
       //Show message
     }
+    this.setTargetTemp();
   }
 
   tempDown(){
     if(this.targetTemp > 5.5) {
       this.targetTemp = this.targetTemp - 0.5;
-      this.setTargetTemp();
     } else {
-      //Show message
-    }
-  }
-
-  tempChanged(){
-    if(this.targetTemp > 30) {
-      this.targetTemp = 30;
-    }
-    if(this.targetTemp < 5) {
       this.targetTemp = 5;
+      //Show message
     }
     this.setTargetTemp();
   }
@@ -93,5 +97,17 @@ export class ThermostatPage {
 
   setLockOff(){
       this.thermoService.put("weekProgramState", {"week_program_state" : "on"}).subscribe();
+  }
+
+  getCurrentDay(){
+      this.thermoService.get("day").subscribe(response => {
+        this.currentDay = response.current_day;
+      });
+  }
+
+  getCurrentTime(){
+      this.thermoService.get("time").subscribe(response => {
+        this.currentTime = response.time;
+      });
   }
 }
