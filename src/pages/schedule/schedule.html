@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Schedule
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card *ngFor="let day of days">
+      <ion-card-header>
+        {{day.day}}
+      </ion-card-header>
+      <ion-card-content>
+        {{day.content}}
+        <ion-icon name="trash"></ion-icon>
+        <ion-icon name="time"></ion-icon>
+      </ion-card-content>
+    </ion-card>
+</ion-content>
