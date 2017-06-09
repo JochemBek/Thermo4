@@ -8,10 +8,15 @@ export class ThermoService{
     serverUrl: String; 
     attribute: String;
     jsonObject: string;
+    temperature: number;
+    maxTemperature: number;
+    minTemperature: number;
 
     constructor(http:Http){
         this.http = http; 
         this.serverUrl = 'http://wwwis.win.tue.nl/2id40-ws/004/';
+        this.maxTemperature = 30.0;
+        this.minTemperature = 5.0;
     }
 
     /* This is the equivalent of the api.js file from the tutorial files on Canvas

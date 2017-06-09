@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { ThermoService } from '../../app/services/thermo.service';
 
 @Component({
   selector: 'schedule',
@@ -7,8 +8,12 @@ import { NavController } from 'ionic-angular';
 })
 export class SchedulePage {
   days: days[];
+  dayTemp: number;
+  nightTemp: number;
+  dayTempTen: number;
+  nightTempTen: number;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private thermoService:ThermoService) {
     this.days = [{
       day: 'Monday', 
       content: 'Maandag'
@@ -36,8 +41,35 @@ export class SchedulePage {
     {
       day: 'Sunday', 
       content: 'Zondag'
-    }]
+    }];
+    
+    this.getDayTemp();
+    this.getNightTemp();
+  }
 
+
+  getDayTemp(){
+  }
+ 
+  getNightTemp(){  
+  }
+
+  setDayTemp(){
+  }
+
+  dayTempUp(){
+  }
+
+  dayTempDown(){
+  }
+
+  setNightTemp(){
+  }
+
+  nightTempUp(){
+  }
+
+  nightTempDown(){
   }
 }
 

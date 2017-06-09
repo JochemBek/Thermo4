@@ -9,19 +9,23 @@
 <!-- These attributes come for the ionic docs, you can copy paste them from there -->
 <ion-content padding>
     <ion-list>
+      <h3> Current Temperature </h3>
       <ion-item>
-        <h3> Current Temperature </h3>
         {{currentTemp}} <!-- This is an Angular2 expression: you can use the brackets to display variables from thermostat.ts -->
       </ion-item>
+      <h3> Set Temperature </h3>
       <ion-item>  <!-- Below, you see (click)="tempUp(): the ( ) brackets are used to listen for events, and the function is the one called in thermostat.ts -->
         <button ion-button (click)="tempUp()" color="light"><ion-icon name="arrow-up"></ion-icon>Up</button>
-        <h3> Set Temperature </h3>
-        {{targetTempTen/10}}
+      </ion-item>
+      <ion-item>
+          <ion-input [(ngModel)]="targetTemp" type="number"></ion-input>
+      </ion-item>
+      <ion-item>
         <button ion-button (click)="tempDown()" color="light"><ion-icon name="arrow-down"></ion-icon>Down</button>
         <button ion-button (click)="toggleLock()" color="light"><ion-icon name="{{locked? 'unlock' : 'lock'}}"></ion-icon>{{locked? 'Unlock' : 'Lock'}}</button>
       </ion-item>
       <ion-item> <!-- Below, you see [(ngModel)]: you only use this for inputs-elements. With this, you set the defined variable from thermostat.ts (targetTempTen here) to the input-element-value. This works two ways: if in this input the variable is changed, it is also changed in thermostat.ts, but also vice versa. -->
-      <ion-range [(ngModel)]="targetTempTen" min="50" max="300" step="1" snap="true" debounce="700" (ionChange)="setTargetTemp()">
+      <ion-range [ngModel]="10*targetTemp" (ngModelChange)="targetTemp=$event/10" min="50" max="300" step="1" snap="true" debounce="700" (ionChange)="setTargetTemp()">
         <ion-icon range-left small name="snow"></ion-icon>
         <ion-icon range-right name="sunny"></ion-icon>
       </ion-range>

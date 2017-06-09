@@ -11,6 +11,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { FloatRangeComponent } from '../components/float-range/float-range';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AboutPage,
     SchedulePage,
     ThermostatPage,
-    TabsPage
+    TabsPage,
+    FloatRangeComponent
   ],
   imports: [
     BrowserModule,
