@@ -8,13 +8,14 @@ import { ThermoService } from '../../app/services/thermo.service';
 })
 export class SchedulePage {
   program: Program;
+  programNum: Program; 
   dayTemp: number;
   nightTemp: number;
   startTime: string;
   endTime: string;
   onDay: string;
-  sortDay: string;
-
+  startTimeNum: number;
+  endTimeNum: number;
 
   constructor(public navCtrl: NavController, private thermoService:ThermoService) {
     this.program = {
@@ -27,19 +28,60 @@ export class SchedulePage {
       Sunday: []
     };
 
+    this.programNum = {
+      Monday: [],
+      Tuesday: [],
+      Wednesday: [],
+      Thursday: [],
+      Friday: [],
+      Saturday: [],
+      Sunday: []
+    };
+
+/*
     this.startTime = "5:00";
     this.endTime = "9:00";
     this.onDay = "Monday";
+    this.addPeriod();
+
+    this.startTime = "7:00";
+    this.endTime = "8:00";
+    this.onDay = "Monday";
+    this.addPeriod();
+
+    this.startTime = "4:00";
+    this.endTime = "7:30";
+    this.onDay = "Monday";
+    this.addPeriod();
+
+    this.startTime = "19:00";
+    this.endTime = "20:30";
+    this.onDay = "Monday";
+    this.addPeriod();
+
+    this.startTime = "10:00";
+    this.endTime = "12:30";
+    this.onDay = "Monday";
+    this.addPeriod();
+
+    this.startTime = "11:00";
+    this.endTime = "15:00";
+    this.onDay = "Monday";
+    this.addPeriod();
+
+    this.startTime = "4:00";
+    this.endTime = "20:30";
+    this.onDay = "Monday";
+    this.addPeriod();*/
+
+    //this.sortMergeProgram("Monday");
     
     this.getWeekProgram();
 
+    console.log(this.program);
+
     this.getDayTemp();
     this.getNightTemp();
-
-    var temp = this;
-    setTimeout(function() {
-      temp.addPeriod();
-    }, 5000);
   }
 
 
@@ -119,15 +161,16 @@ export class SchedulePage {
       this.thermoService.get("weekProgram").subscribe(response => {
         console.log(response);
         for(var day in response.week_program.days) {
-          //console.log(day); 
+          console.log(day); 
           for(var switches in response.week_program.days[day]){
-            //console.log(switches);
             for (var sw in response.week_program.days[day][switches]){
               if(response.week_program.days[day][switches][sw].state == 'on'){
                 if(response.week_program.days[day][switches][sw].type == 'day') {
-                  this.program[day].push([response.week_program.days[day][switches][sw].time, "00:00"]);
+                  var temp1 = this.parseTime(response.week_program.days[day][switches][sw].time);
+                  this.program[day].push([temp1, 0]);
                 } else {
-                  this.program[day][this.program[day].length-1][1] = response.week_program.days[day][switches][sw].time;
+                  var temp2 = this.parseTime(response.week_program.days[day][switches][sw].time);
+                  this.program[day][this.program[day].length-1][1] = temp2;
                 }
               }
             }
@@ -137,15 +180,49 @@ export class SchedulePage {
   }
 
   addPeriod() {
-    this.program[this.onDay].push([this.startTime, this.endTime]);
-    console.log(this.program[this.onDay]);
-    this.sortDay = this.onDay;
-    this.sortMergeProgram();
+    this.startTimeNum = this.parseTime(this.startTime);
+    this.endTimeNum = this.parseTime(this.endTime);
+    this.program[this.onDay].push([this.startTimeNum, this.endTimeNum]);
+    //console.log(this.program[this.onDay]);
+    this.sortMergeProgram(this.onDay);
   }
 
-  sortMergeProgram() {
-    //this.program[this.sortDay]
-    // difficult function comes here D: 
+  sortMergeProgram(day) {
+    this.program[day].sort( function(period1, period2) {
+      if(period1[0] < period2[0]) {
+        return -1;
+      } else if (period1[0] > period2[0]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    for(var i = 0; i < this.program[day].length - 1; i++) {
+      if(this.program[day][String(i)][1] >= this.program[day][String(i+1)][0]) {
+          var start = this.program[day][String(i)][0];
+          var end;
+          if(this.program[day][String(i)][1] > this.program[day][String(i+1)][1]) {
+            end = this.program[day][String(i)][1];
+          } else {
+            end = this.program[day][String(i+1)][1];
+          }
+          this.program[day].splice(String(i), 2);
+          this.program[day].push([start, end]);
+          this.sortMergeProgram(day);
+      }
+    }
+    console.log(this.program[day]);
+  }
+
+  setWeekProgram() {
+    var doc = document.implementation.createDocument(null, null, null);
+
+
+  }
+
+  parseTime(t) {
+    return parseFloat(t.substr(0,2)) + parseFloat(t.substr(3,2))/60;
   }
 
 }

@@ -92,6 +92,7 @@ export class ThermostatPage {
   }
 
   setLockOn(){
+      this.thermoService.put("targetTemperature", {"target_temperature" : (this.targetTemp).toString()}).subscribe();
       this.thermoService.put("weekProgramState", {"week_program_state" : "off"}).subscribe();
   }
 
