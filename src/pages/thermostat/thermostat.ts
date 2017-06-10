@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ThermoService } from '../../app/services/thermo.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'thermostat',
@@ -31,8 +32,10 @@ export class ThermostatPage {
   getLock() {
       this.thermoService.get("weekProgramState").subscribe(response => {
         if(response.week_program_state == "off") {
+          this.thermoService.setProgramState(false);
           this.locked = true; 
         } else {
+          this.thermoService.setProgramState(true);
           this.locked = false;
         }
       });
@@ -46,7 +49,7 @@ export class ThermostatPage {
  
   getTargetTemperature(){ 
       this.thermoService.get("targetTemperature").subscribe(response => {
-        this.targetTemp = response.target_temperature;
+        this.targetTemp = Number(response.target_temperature);
       });
   }
 
@@ -84,8 +87,10 @@ export class ThermostatPage {
   toggleLock(){
     if(this.locked == true) {
       this.locked = false;
+      this.thermoService.setProgramState(true);
       this.setLockOff();
     } else {
+      this.thermoService.setProgramState(false);
       this.locked = true;
       this.setLockOn();
     }
