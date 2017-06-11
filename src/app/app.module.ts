@@ -8,10 +8,11 @@ import { AboutPage } from '../pages/about/about';
 import { ThermostatPage } from '../pages/thermostat/thermostat';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { TabsPage } from '../pages/tabs/tabs';
+import { DayTemperaturePage } from '../pages/day-temperature/day-temperature'; 
+import { NightTemperaturePage } from '../pages/night-temperature/night-temperature';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { FloatRangeComponent } from '../components/float-range/float-range';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FloatRangeComponent } from '../components/float-range/float-range';
     SchedulePage,
     ThermostatPage,
     TabsPage,
-    FloatRangeComponent
+    DayTemperaturePage,
+    NightTemperaturePage
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,9 @@ import { FloatRangeComponent } from '../components/float-range/float-range';
     AboutPage,
     SchedulePage,
     ThermostatPage,
-    TabsPage
+    TabsPage,
+    DayTemperaturePage,
+    NightTemperaturePage
   ],
   providers: [
     StatusBar,

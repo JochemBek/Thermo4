@@ -204,6 +204,41 @@ export class ThermoService{
         this.uploadData('weekProgram', (new XMLSerializer()).serializeToString(doc));
     }
 
+    setDefault(){
+        var doc = document.implementation.createDocument(null, null, null); 
+        var program = doc.createElement('week_program');
+        program.setAttribute('state', this.ProgramState ? 'on' : 'off');
+
+        for(var day in this.Program) {
+            var dayel = doc.createElement('day');
+            dayel.setAttribute('name', day);
+
+            var text, sw;
+
+            for(var l = 0; l < this.MaxSwitches; l++){
+                sw = doc.createElement('switch');
+                sw.setAttribute('type', this.Type.Night);
+                sw.setAttribute('state', 'off');
+                text = doc.createTextNode('00:00');
+                sw.appendChild(text);
+                dayel.appendChild(sw);
+            }
+
+            for(var k = 0; k < this.MaxSwitches; k++){
+                sw = doc.createElement('switch'); 
+                sw.setAttribute('type', this.Type.Day);
+                sw.setAttribute('state', 'off');
+                text = doc.createTextNode('00:00');
+                sw.appendChild(text);
+                dayel.appendChild(sw);
+            }
+            program.appendChild(dayel);
+        }
+        doc.appendChild(program);
+        console.log(doc);
+        this.uploadData('weekProgram', (new XMLSerializer()).serializeToString(doc));
+    }
+
     uploadData(address, xml) {
         $.ajax({
             type: "put",

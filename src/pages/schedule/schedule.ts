@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { DayTemperaturePage } from '../day-temperature/day-temperature';
+import { NightTemperaturePage } from '../night-temperature/night-temperature';
 import { ThermoService } from '../../app/services/thermo.service';
 
 @Component({
@@ -7,84 +9,38 @@ import { ThermoService } from '../../app/services/thermo.service';
   templateUrl: 'schedule.html'
 })
 export class SchedulePage {
-  dayTemp: number;
   nightTemp: number;
+  dayTemp: number;
+  days: day[];
 
   constructor(public navCtrl: NavController, private thermoService:ThermoService) {
-    this.getDayTemp();
     this.getNightTemp();
-  }
+    this.getDayTemp();
 
+  } 
 
-  getDayTemp(){
-      this.thermoService.get("dayTemperature").subscribe(response => {
-        this.dayTemp = Number(response.day_temperature);
-      });
-  }
- 
   getNightTemp(){  
       this.thermoService.get("nightTemperature").subscribe(response => {
         this.nightTemp = Number(response.night_temperature);
       });
   }
 
-  setDayTemp(){
-    if(this.dayTemp > 30) {
-      this.dayTemp = 30;
-    } 
-    if(this.dayTemp < 5) {
-      this.dayTemp = 5;
-    }
-    this.thermoService.put("dayTemperature", {"day_temperature" : (this.dayTemp).toString()}).subscribe();
+  getDayTemp(){  
+      this.thermoService.get("dayTemperature").subscribe(response => {
+        this.dayTemp = Number(response.day_temperature);
+      });
   }
 
-  dayTempUp(){
-    if(this.dayTemp < 29.6) {
-      this.dayTemp = this.dayTemp + 0.5;
-    } else {
-      this.dayTemp = 30;
-      //Show message
-    }
-    this.setDayTemp();
+  goToDay(){
+    this.navCtrl.push(DayTemperaturePage);
   }
 
-  dayTempDown(){
-    if(this.dayTemp > 5.5) {
-      this.dayTemp = this.dayTemp - 0.5;
-    } else {
-      this.dayTemp = 5;
-      //Show message
-    }
-    this.setDayTemp();
+  goToNight(){
+    this.navCtrl.push(NightTemperaturePage);
   }
+}
 
-  setNightTemp(){
-    if(this.nightTemp > 30) {
-      this.nightTemp = 30;
-    } 
-    if(this.nightTemp < 5) {
-      this.nightTemp = 5;
-    }
-    this.thermoService.put("nightTemperature", {"night_temperature" : (this.nightTemp).toString()}).subscribe();
-  }
-
-  nightTempUp(){
-    if(this.nightTemp < 29.6) {
-      this.nightTemp = this.nightTemp + 0.5;
-    } else {
-      this.nightTemp = 30;
-      //Show message
-    }
-    this.setNightTemp();
-  }
-
-  nightTempDown(){
-    if(this.nightTemp > 5.5) {
-      this.nightTemp = this.nightTemp - 0.5;
-    } else {
-      this.nightTemp = 5;
-      //Show message
-    }
-    this.setNightTemp();
-  }
+interface day {
+  day: string;
+  content: string;
 }
