@@ -17,7 +17,21 @@ export class SchedulePage {
     this.getNightTemp();
     this.getDayTemp();
 
+    this.days = [
+      {day: "Monday", content: "Maandag"},
+      {day: "Tuesday", content: "Dinsdag"},
+      {day: "Wednesday", content: "Woensdag"},
+      {day: "Thursday", content: "Donderdag"},
+      {day: "Friday", content: "Vrijdag"},
+      {day: "Saturday", content: "Zaterdag"},
+      {day: "Sundag", content: "Zondag"}
+    ]
   } 
+
+  ionViewWillEnter() {
+    this.getNightTemp();
+    this.getDayTemp();
+  }
 
   getNightTemp(){  
       this.thermoService.get("nightTemperature").subscribe(response => {

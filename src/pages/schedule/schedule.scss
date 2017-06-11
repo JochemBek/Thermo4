@@ -1,0 +1,14 @@
+schedule {
+    $nomargin: 0px;
+    $fully: 100%;
+    $smallmargin: 5px;
+
+    .temp-card {
+        margin: $nomargin;
+        width: $fully; 
+    }
+
+    .day-card {
+        width: calc(100% - 21px);
+    }
+}

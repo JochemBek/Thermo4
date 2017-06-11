@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 import { ThermoService } from '../../app/services/thermo.service';
 
 /**
@@ -16,7 +17,7 @@ import { ThermoService } from '../../app/services/thermo.service';
 export class NightTemperaturePage {
   nightTemp: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService, public toastCtrl: ToastController) {
     this.getNightTemp();
   }
 
@@ -32,9 +33,11 @@ export class NightTemperaturePage {
 
   setNightTemp(){
     if(this.nightTemp > 30) {
+      this.presentTooHigh();
       this.nightTemp = 30;
     } 
     if(this.nightTemp < 5) {
+      this.presentTooLow();
       this.nightTemp = 5;
     }
     this.thermoService.put("nightTemperature", {"night_temperature" : (this.nightTemp).toString()}).subscribe();
@@ -45,7 +48,7 @@ export class NightTemperaturePage {
       this.nightTemp = this.nightTemp + 0.5;
     } else {
       this.nightTemp = 30;
-      //Show message
+      this.presentTooHigh();
     }
     this.setNightTemp();
   }
@@ -55,9 +58,26 @@ export class NightTemperaturePage {
       this.nightTemp = this.nightTemp - 0.5;
     } else {
       this.nightTemp = 5;
-      //Show message
+      this.presentTooLow();
     }
     this.setNightTemp();
   }
 
+  presentTooHigh() {
+    console.log("Too High!");
+    let toast = this.toastCtrl.create({
+      message: 'That temperature is too high. The maximum is 30 degrees C.',
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  presentTooLow() {
+    console.log("Too Low!");
+    let toast = this.toastCtrl.create({
+        message: 'That temperature is too low. The minimum is 5 degrees C.',
+        duration: 5000
+      });
+      toast.present();
+  }
 }

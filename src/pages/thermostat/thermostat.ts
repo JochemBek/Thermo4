@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ThermoService } from '../../app/services/thermo.service';
+import { ToastController } from 'ionic-angular';
 import * as $ from 'jquery';
 
 @Component({
@@ -14,7 +15,7 @@ export class ThermostatPage {
   currentDay: string;
   currentTime: string;
 
-  constructor(public navCtrl: NavController, private thermoService:ThermoService) {
+  constructor(public navCtrl: NavController, private thermoService:ThermoService, public toastCtrl: ToastController) {
     this.getLock(); 
     this.getCurrentTemperature(); 
     this.getTargetTemperature(); 
@@ -55,9 +56,11 @@ export class ThermostatPage {
 
   setTargetTemp(){
     if(this.targetTemp > 30) {
+      this.presentTooHigh();
       this.targetTemp = 30;
     } 
     if(this.targetTemp < 5) {
+      this.presentTooLow();
       this.targetTemp = 5;
     }
     this.thermoService.put("targetTemperature", {"target_temperature" : (this.targetTemp).toString()}).subscribe();
@@ -69,7 +72,7 @@ export class ThermostatPage {
       this.targetTemp = this.targetTemp + 0.5;
     } else {
       this.targetTemp = 30;
-      //Show message
+      this.presentTooHigh();
     }
     this.setTargetTemp();
   }
@@ -79,7 +82,7 @@ export class ThermostatPage {
       this.targetTemp = this.targetTemp - 0.5;
     } else {
       this.targetTemp = 5;
-      //Show message
+      this.presentTooLow();
     }
     this.setTargetTemp();
   }
@@ -115,5 +118,23 @@ export class ThermostatPage {
       this.thermoService.get("time").subscribe(response => {
         this.currentTime = response.time;
       });
+  }
+
+  presentTooHigh() {
+    console.log("Too High!");
+    let toast = this.toastCtrl.create({
+      message: 'That temperature is too high. The maximum is 30 degrees C.',
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  presentTooLow() {
+    console.log("Too Low!");
+    let toast = this.toastCtrl.create({
+        message: 'That temperature is too low. The minimum is 5 degrees C.',
+        duration: 5000
+      });
+      toast.present();
   }
 }
