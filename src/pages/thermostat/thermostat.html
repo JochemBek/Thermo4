@@ -8,15 +8,41 @@
 
 <!-- These attributes come for the ionic docs, you can copy paste them from there -->
 <ion-content padding>
+
+
     <ion-list>
       <ion-item text-center>
         {{currentDay}} {{currentTime}}
       </ion-item>
-      <h3> Current Temperature </h3>
-      <ion-item>
-        {{currentTemp}} <!-- This is an Angular2 expression: you can use the brackets to display variables from thermostat.ts -->
-      </ion-item>
-      <h3> Set Temperature </h3>
+
+      <div class="spacer" style="width: 300px; height: 35px;"></div>
+
+ 
+
+          <h3> Current Temperature </h3>
+
+        <ion-item>
+          {{currentTemp}} <!-- This is an Angular2 expression: you can use the brackets to display variables from thermostat.ts -->
+        </ion-item>
+
+      <div class="spacer" style="width: 300px; height: 35px;"></div>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-auto>
+           <h3> Set Temperature </h3>
+          </ion-col>
+          <ion-col col-auto>
+                <ion-toggle checked="false" style="padding-top: 5px"></ion-toggle>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+     
+
+
+      
       <ion-item>  <!-- Below, you see (click)="tempUp(): the ( ) brackets are used to listen for events, and the function is the one called in thermostat.ts -->
         <button ion-button (click)="tempUp()" color="light"><ion-icon name="arrow-up"></ion-icon>Up</button>
       </ion-item>
@@ -34,4 +60,30 @@
         </ion-range>
       </ion-item>
     </ion-list>
+
+
+<!--
+
+    <ion-content padding="true" class="has-header">
+      <div class="spacer" style="width: 300px; height: 35px;"></div>
+      <div id="cameraTabDefaultPage-container4">
+        <h3 id="cameraTabDefaultPage-heading1" style="color:#000000;">Current Temperature</h3>
+        <div id="cameraTabDefaultPage-container5" class="creator-container"></div>
+      </div>
+      <div class="spacer" style="width: 300px; height: 84px;"></div>
+      <h3 id="cameraTabDefaultPage-heading2" style="color:#000000;">Set Temperature</h3>
+      <form id="cameraTabDefaultPage-form4" class="list">
+        <ion-toggle toggle-class="toggle-positive" id="cameraTabDefaultPage-toggle3">Toggle</ion-toggle>
+      </form>
+      <div id="cameraTabDefaultPage-container6" class="creator-container"></div>
+      <form id="cameraTabDefaultPage-form7" class="list">
+        <ion-item class="range range-positive" id="cameraTabDefaultPage-range3">Range
+          <input type="range" value="50" min="0" max="100" step="1">
+        </ion-item>
+      </form>
+    </ion-content>
+
+-->
+
+
 </ion-content>

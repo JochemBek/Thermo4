@@ -6,7 +6,350 @@
   </ion-navbar>
 </ion-header>
 
+
+
+
+
 <ion-content padding>
+
+<ion-card>
+  <ion-card-header style="font-size: 2.2rem; font-weight:500">
+    Set the Day and Night Temperatures
+  </ion-card-header>
+
+  <ion-card-content>
+
+      <ion-grid >
+        <ion-row >
+          <ion-col >
+            <div>
+              
+          
+              <h5 style="font-size: 1.5rem; font-weight:500; text-align:center; padding-left:0px"> Day Temperature </h5>
+              <ion-item style="text-align:center; padding:0px">
+                <button ion-button (click)="dayTempUp()" color="light"><ion-icon name="arrow-up"></ion-icon>Up</button>
+              </ion-item>
+              <ion-item style="padding:0px">
+                  <ion-input [(ngModel)]="dayTemp" type="number" (ionChange)="setDayTemp()"></ion-input>
+              </ion-item>
+              <ion-item style="text-align:center; padding:0px">
+                <button ion-button (click)="dayTempDown()" color="light"><ion-icon name="arrow-down"></ion-icon>Down</button>
+              </ion-item>
+              <ion-item style="padding:0px"> 
+            <ion-range [ngModel]="10*dayTemp" (ngModelChange)="dayTemp=$event/10" min="50" max="300" step="1" snap="true" debounce="700" (ionChange)="setDayTemp()"  style="padding:0px">
+              <ion-icon range-left small name="snow"></ion-icon>
+              <ion-icon range-right name="sunny"></ion-icon>
+            </ion-range>
+          </ion-item>
+
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              
+
+              <h5 style="font-size: 1.5rem; font-weight:500; text-align:center; padding:0px"> Night Temperature </h5>
+          <ion-item style="text-align:center; padding:0px">
+            <button ion-button (click)="nightTempUp()" color="light"><ion-icon name="arrow-up"></ion-icon>Up</button>
+          </ion-item>
+          <ion-item style="padding:0px">
+              <ion-input [(ngModel)]="nightTemp" type="number" (ionChange)="setNightTemp()"></ion-input>
+          </ion-item>
+          <ion-item style="text-align:center; padding:0px">
+            <button ion-button (click)="nightTempDown()" color="light"><ion-icon name="arrow-down"></ion-icon>Down</button>
+          </ion-item>
+          <ion-item style="padding:0px"> 
+            <ion-range [ngModel]="10*nightTemp" (ngModelChange)="nightTemp=$event/10" min="50" max="300" step="1" snap="true" debounce="700" (ionChange)="setNightTemp()" style="padding:0px">
+              <ion-icon range-left small name="snow"></ion-icon>
+              <ion-icon range-right name="sunny"></ion-icon>
+            </ion-range>
+          </ion-item>
+
+            </div>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    </ion-card-content>
+
+</ion-card>
+
+
+
+
+<div class="spacer" style="width: 300px; height: 35px;"></div>
+<button ion-button full style="padding:10px">Create new setting</button>
+
+<ion-card>
+
+  <ion-card-header style="font-size: 2.2rem; font-weight:500">
+    <ion-grid>
+        <ion-row>
+          <ion-col col-auto>
+           <h3 style="font-size: 2.2rem; font-weight:500"> Setting nº1 </h3>
+          </ion-col>
+          <ion-col col-auto>
+                <ion-toggle checked="true" color="secondary" style="padding-top: 5px"></ion-toggle>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  </ion-card-header>
+
+
+    <ion-card-content>
+
+    <ion-grid>
+    <ion-row>
+      <ion-col style="text-align:center">
+        <div >MON</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >TUE</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >WED</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >THU</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >FRI</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >SAT</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >SUN</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+
+    </ion-row>
+    
+  </ion-grid>
+
+
+    <ion-grid>
+        <ion-row>
+
+        <div class="spacer" style="width: 300px; height: 10px;"></div>
+    <ion-item>
+      <ion-label>Start Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>End Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+    </ion-item>
+        
+         </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+
+
+</ion-card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spacer" style="width: 300px; height: 25px;"></div>
+<ion-card>
+
+  <ion-card-header style="font-size: 2.2rem; font-weight:500">
+    <ion-grid>
+        <ion-row>
+          <ion-col col-auto>
+           <h3 style="font-size: 2.2rem; font-weight:500"> Setting nº2 </h3>
+          </ion-col>
+          <ion-col col-auto>
+                <ion-toggle checked="true" color="secondary" style="padding-top: 5px"></ion-toggle>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  </ion-card-header>
+
+
+    <ion-card-content>
+
+    <ion-grid>
+    <ion-row>
+      <ion-col style="text-align:center">
+        <div >MON</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >TUE</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >WED</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >THU</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >FRI</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >SAT</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >SUN</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+
+    </ion-row>
+    
+  </ion-grid>
+
+
+    <ion-grid>
+        <ion-row>
+
+        <div class="spacer" style="width: 300px; height: 10px;"></div>
+    <ion-item>
+      <ion-label>Start Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>End Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+    </ion-item>
+        
+         </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+
+
+</ion-card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spacer" style="width: 300px; height: 25px;"></div>
+<ion-card>
+
+  <ion-card-header style="font-size: 2.2rem; font-weight:500">
+    <ion-grid>
+        <ion-row>
+          <ion-col col-auto>
+           <h3 style="font-size: 2.2rem; font-weight:500"> Setting nº3 </h3>
+          </ion-col>
+          <ion-col col-auto>
+                <ion-toggle checked="true" color="secondary" style="padding-top: 5px"></ion-toggle>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  </ion-card-header>
+
+
+    <ion-card-content>
+
+    <ion-grid>
+    <ion-row>
+      <ion-col style="text-align:center">
+        <div >MON</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >TUE</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >WED</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >THU</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >FRI</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >SAT</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >SUN</div>
+        <ion-checkbox disabled="false" ></ion-checkbox>
+      </ion-col>
+
+    </ion-row>
+    
+  </ion-grid>
+
+
+    <ion-grid>
+        <ion-row>
+
+        <div class="spacer" style="width: 300px; height: 10px;"></div>
+    <ion-item>
+      <ion-label>Start Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>End Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+    </ion-item>
+        
+         </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+
+
+</ion-card>
+
+
+
+
+
+<!--
+
     <ion-grid>
       <ion-row justify-content-center>
         <ion-col col-6>
@@ -64,4 +407,7 @@
         <ion-icon name="time"></ion-icon>
       </ion-card-content>
     </ion-card>
+
+-->
+
 </ion-content>

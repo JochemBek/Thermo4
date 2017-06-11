@@ -15,6 +15,11 @@ export class SchedulePage {
   onDay: string;
   sortDay: string;
 
+  public event = {
+    month: '1990-02-19',
+    timeStarts: '07:43',
+    timeEnds: '1990-02-20'
+  }
 
   constructor(public navCtrl: NavController, private thermoService:ThermoService) {
     this.program = {
