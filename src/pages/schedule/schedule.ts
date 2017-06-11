@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { DayTemperaturePage } from '../day-temperature/day-temperature';
 import { NightTemperaturePage } from '../night-temperature/night-temperature';
+import { DayPage } from '../day/day';
 import { ThermoService } from '../../app/services/thermo.service';
 
 @Component({
@@ -24,11 +25,16 @@ export class SchedulePage {
       {day: "Thursday", content: "Donderdag"},
       {day: "Friday", content: "Vrijdag"},
       {day: "Saturday", content: "Zaterdag"},
-      {day: "Sundag", content: "Zondag"}
+      {day: "Sunday", content: "Zondag"}
     ]
   } 
 
   ionViewWillEnter() {
+    this.getNightTemp();
+    this.getDayTemp();
+  }
+
+  ionViewDidEnter() {
     this.getNightTemp();
     this.getDayTemp();
   }
@@ -51,6 +57,13 @@ export class SchedulePage {
 
   goToNight(){
     this.navCtrl.push(NightTemperaturePage);
+  }
+
+  daySelected(day){
+    console.log(day);
+    this.navCtrl.push(DayPage, {
+      day: day 
+    });
   }
 }
 

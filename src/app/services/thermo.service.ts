@@ -11,6 +11,8 @@ export class ThermoService{
     jsonObject: string;
     
     Program: Program;
+
+    DayProgramNum: any[];
     
     startTime: string;
     endTime: string;
@@ -41,11 +43,11 @@ export class ThermoService{
             Sunday: []
         };
 
-        //this.getWeekProgram();
+        this.DayProgramNum = [];
 
+        this.getWeekProgram();
 
-
-        this.startTime = "5:00";
+        /*this.startTime = "5:00";
         this.endTime = "9:00";
         this.onDay = "Monday";
         this.addPeriod();
@@ -75,7 +77,7 @@ export class ThermoService{
         this.onDay = "Monday";
         this.addPeriod();
 
-        this.setWeekProgram();
+        this.setWeekProgram();*/
     }
 
     get(attr){
@@ -95,20 +97,29 @@ export class ThermoService{
         this.ProgramState = state;
     }
 
+    getDayProgram(day){
+        for(var period in this.Program[day]) {
+            var sTimeNum = this.toHourMin(this.Program[day][period][0]);
+            var eTimeNum = this.toHourMin(this.Program[day][period][1]);
+            this.DayProgramNum.push([sTimeNum, eTimeNum]);
+        }
+        return this.DayProgramNum;
+    }
+
     getWeekProgram() {
         this.get("weekProgram").subscribe(response => {
             for(var day in response.week_program.days) {
                 for(var switches in response.week_program.days[day]){
                     for (var sw in response.week_program.days[day][switches]){
-                    if(response.week_program.days[day][switches][sw].state == 'on'){
-                        if(response.week_program.days[day][switches][sw].type == 'day') {
-                        var temp1 = this.parseTime(response.week_program.days[day][switches][sw].time);
-                        this.Program[day].push([temp1, 0]);
-                        } else {
-                        var temp2 = this.parseTime(response.week_program.days[day][switches][sw].time);
-                        this.Program[day][this.Program[day].length-1][1] = temp2;
+                        if(response.week_program.days[day][switches][sw].state == 'on'){
+                            if(response.week_program.days[day][switches][sw].type == 'day') {
+                                var temp1 = this.parseTime(response.week_program.days[day][switches][sw].time);
+                                this.Program[day].push([temp1, 0]);
+                            } else {
+                                var temp2 = this.parseTime(response.week_program.days[day][switches][sw].time);
+                                this.Program[day][this.Program[day].length-1][1] = temp2;
+                            }
                         }
-                    }
                     }
                 }
             }

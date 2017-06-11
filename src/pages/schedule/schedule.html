@@ -34,13 +34,9 @@
       </ion-row>
     </ion-grid>
     <h3> Days </h3>
-    <ion-card *ngFor="let day of days" class="day-card">
-      <ion-card-header>
+    <ion-list>
+      <button ion-item *ngFor="let day of days" (click)="daySelected(day.day)">
         {{day.day}}
-      </ion-card-header>
-      <ion-card-content>
-        <ion-icon name="trash"></ion-icon>
-        <ion-icon name="time"></ion-icon>
-      </ion-card-content>
-    </ion-card>
+      </button>
+    </ion-list>
 </ion-content>
