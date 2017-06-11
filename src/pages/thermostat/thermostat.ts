@@ -14,13 +14,11 @@ export class ThermostatPage {
   locked: boolean;
   currentDay: string;
   currentTime: string;
+  servers: string;
 
   constructor(public navCtrl: NavController, private thermoService:ThermoService, public toastCtrl: ToastController) {
-    this.getLock(); 
-    this.getCurrentTemperature(); 
-    this.getTargetTemperature(); 
-    this.getCurrentDay();
-    this.getCurrentTime();
+    this.initialize();
+    this.servers = '004';
    
     var temp = this;
     setInterval(function() {
@@ -28,6 +26,18 @@ export class ThermostatPage {
       temp.getCurrentDay();
       temp.getCurrentTime();
     }, 100);
+  }
+
+  ionViewWillEnter() {
+    this.initialize();
+  }
+
+  initialize() {
+      this.getLock(); 
+      this.getCurrentTemperature(); 
+      this.getTargetTemperature(); 
+      this.getCurrentDay();    
+      this.getCurrentTime();
   }
 
   getLock() {

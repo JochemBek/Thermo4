@@ -8,23 +8,26 @@
 
 <!-- These attributes come for the ionic docs, you can copy paste them from there -->
 <ion-content padding>
-    <ion-list>
+    <ion-list text-center>
       <ion-item text-center>
         {{currentDay}} {{currentTime}}
       </ion-item>
-      <h3> Current Temperature </h3>
-      <ion-item>
-        {{currentTemp}} <!-- This is an Angular2 expression: you can use the brackets to display variables from thermostat.ts -->
+      <ion-item text-center class="currentTempCont">
+        <ion-icon name="home"></ion-icon>
+        <br>
+        {{currentTemp}} °C<!-- This is an Angular2 expression: you can use the brackets to display variables from thermostat.ts -->
       </ion-item>
-      <h3> Set Temperature </h3>
-      <ion-item>  <!-- Below, you see (click)="tempUp(): the ( ) brackets are used to listen for events, and the function is the one called in thermostat.ts -->
+      <h3 text-center> Set Temperature </h3>
+      <ion-item text-center>  <!-- Below, you see (click)="tempUp(): the ( ) brackets are used to listen for events, and the function is the one called in thermostat.ts -->
         <button ion-button (click)="tempUp()" color="light"><ion-icon name="arrow-up"></ion-icon>Up</button>
       </ion-item>
-      <ion-item>
-          <ion-input [(ngModel)]="targetTemp" type="number" (ionChange)="setTargetTemp()"></ion-input>
+      <ion-item text-center>
+          <ion-input [(ngModel)]="targetTemp" type="number" (ionChange)="setTargetTemp()" class="temperatureInput"></ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item text-center>
         <button ion-button (click)="tempDown()" color="light"><ion-icon name="arrow-down"></ion-icon>Down</button>
+      </ion-item>
+      <ion-item text-center>
         <button ion-button (click)="toggleLock()" color="light"><ion-icon name="{{locked? 'unlock' : 'lock'}}"></ion-icon>{{locked? 'Unlock' : 'Lock'}}</button>
       </ion-item>
       <ion-item> <!-- Below, you see [(ngModel)]: you only use this for inputs-elements. With this, you set the defined variable from thermostat.ts (targetTempTen here) to the input-element-value. This works two ways: if in this input the variable is changed, it is also changed in thermostat.ts, but also vice versa. -->

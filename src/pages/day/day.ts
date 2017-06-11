@@ -21,14 +21,13 @@ export class DayPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService) {
     this.day = navParams.get('day');
+  }
+
+  ionViewWillEnter() {
     this.periods = this.thermoService.getDayProgram(this.day);
     console.log(this.periods);
     this.periodsAdv = [];
     this.advPeriods();
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DayPage');
   }
 
   advPeriods() {

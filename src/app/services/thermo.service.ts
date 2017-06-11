@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 export class ThermoService{
     http: any;
     serverUrl: String; 
+    serverName: string;
     attribute: String;
     jsonObject: string;
     
@@ -47,37 +48,26 @@ export class ThermoService{
 
         this.getWeekProgram();
 
-        /*this.startTime = "5:00";
-        this.endTime = "9:00";
-        this.onDay = "Monday";
-        this.addPeriod();
-        
-        this.startTime = "7:00";
-        this.endTime = "8:00";
-        this.onDay = "Monday";
-        this.addPeriod();
+    }
 
-        this.startTime = "4:00";
-        this.endTime = "7:30";
-        this.onDay = "Monday";
-        this.addPeriod();
+    changeServer(server) {
+        if(server == '004') {
+            console.log('004');
+            this.serverUrl = 'http://wwwis.win.tue.nl/2id40-ws/004/';
+        } else { 
+            console.log('100');
+            this.serverUrl = 'http://wwwis.win.tue.nl/2id40-ws/100/';
+        }
+        this.getWeekProgram();
+    }
 
-        this.startTime = "19:00";
-        this.endTime = "20:30";
-        this.onDay = "Monday";
-        this.addPeriod();
-
-        this.startTime = "10:00";
-        this.endTime = "12:30";
-        this.onDay = "Monday";
-        this.addPeriod();
-
-        this.startTime = "11:00";
-        this.endTime = "15:00";
-        this.onDay = "Monday";
-        this.addPeriod();
-
-        this.setWeekProgram();*/
+    getServer() {
+        if(this.serverUrl == 'http://wwwis.win.tue.nl/2id40-ws/004/') {
+            this.serverName = '004';
+        } else {
+            this.serverName = 'backup'; 
+        }
+        return this.serverName;
     }
 
     get(attr){
@@ -108,16 +98,31 @@ export class ThermoService{
     }
 
     getWeekProgram() {
+        this.Program = {
+            Monday: [],
+            Tuesday: [],
+            Wednesday: [],
+            Thursday: [],
+            Friday: [],
+            Saturday: [],
+            Sunday: []
+        };
+
         this.get("weekProgram").subscribe(response => {
             for(var day in response.week_program.days) {
                 for(var switches in response.week_program.days[day]){
                     for (var sw in response.week_program.days[day][switches]){
+                        var i = 0;
+                        i++;
                         if(response.week_program.days[day][switches][sw].state == 'on'){
+                            console.log("We are at switch: " + i);
                             if(response.week_program.days[day][switches][sw].type == 'day') {
                                 var temp1 = this.parseTime(response.week_program.days[day][switches][sw].time);
+                                console.log("Pushed one");
                                 this.Program[day].push([temp1, 0]);
                             } else {
                                 var temp2 = this.parseTime(response.week_program.days[day][switches][sw].time);
+                                console.log(this.Program[day][this.Program[day].length-1][1]);
                                 this.Program[day][this.Program[day].length-1][1] = temp2;
                             }
                         }

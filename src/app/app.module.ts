@@ -12,6 +12,7 @@ import { DayTemperaturePage } from '../pages/day-temperature/day-temperature';
 import { NightTemperaturePage } from '../pages/night-temperature/night-temperature';
 import { DayPage } from '../pages/day/day';
 import { AddPeriodPage } from '../pages/add-period/add-period';
+import { ServerPage } from '../pages/server/server';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,7 +27,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     DayTemperaturePage,
     NightTemperaturePage,
     DayPage,
-    AddPeriodPage
+    AddPeriodPage,
+    ServerPage
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     DayTemperaturePage,
     NightTemperaturePage,
     DayPage,
-    AddPeriodPage
+    AddPeriodPage,
+    ServerPage
   ],
   providers: [
     StatusBar,
