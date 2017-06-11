@@ -17,14 +17,14 @@
   <h1> Heating periods </h1>
   <ion-card *ngFor="let period of periodsAdv">
     <ion-card-header>
-      <ion-grid> 
-        <ion-row>
-          <ion-col col-3>
+      <ion-grid>
+        <ion-row> 
+          <ion-col col-6> 
             <ion-item>
               <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [(ngModel)]="period.startTime"></ion-datetime>
             </ion-item>
           </ion-col>
-          <ion-col col-3>
+          <ion-col col-6>
             <ion-item>
               <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [(ngModel)]="period.endTime"></ion-datetime>
             </ion-item>
@@ -33,8 +33,13 @@
       </ion-grid>
     </ion-card-header>
     <ion-card-content>
+      {{period.lengthT}}: {{period.difTime}} Hours
       <ion-icon name="trash"></ion-icon>
       <ion-icon name="share-alt"></ion-icon>
     </ion-card-content>
   </ion-card>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)="goToAddPeriod()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

@@ -98,6 +98,7 @@ export class ThermoService{
     }
 
     getDayProgram(day){
+        this.DayProgramNum = [];
         for(var period in this.Program[day]) {
             var sTimeNum = this.toHourMin(this.Program[day][period][0]);
             var eTimeNum = this.toHourMin(this.Program[day][period][1]);
