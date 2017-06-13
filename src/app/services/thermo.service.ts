@@ -140,6 +140,19 @@ export class ThermoService{
         this.setWeekProgram();
     }
 
+    addPeriod_with_parameters(day, startHOUR, endHOUR) {
+        console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+        this.startTime = startHOUR;
+        this.endTime = endHOUR;
+        this.onDay = day;
+        this.startTimeNum = this.parseTime(this.startTime);
+        this.endTimeNum = this.parseTime(this.endTime);
+        this.Program[this.onDay].push([this.startTimeNum, this.endTimeNum]);
+        this.sortMergeProgram(this.onDay);
+        this.setWeekProgram();
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    }
+
     sortMergeProgram(day) {
         this.Program[day].sort( function(period1, period2) {
             if(period1[0] < period2[0]) {
