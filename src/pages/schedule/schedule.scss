@@ -3,12 +3,48 @@ schedule {
     $fully: 100%;
     $smallmargin: 5px;
 
-    .temp-card {
+    ion-card {
         margin: $nomargin;
         width: $fully; 
+        position: relative;
+        text-align: center;
+    }
+    
+    .card-title {
+        position: absolute;
+        top: 36%;
+        font-size: 2.0em;
+        width: 100%;
+        font-weight: bold;
+        color: #fff;
+        background-color: rgba(0,0,0,0.3);
     }
 
-    .day-card {
-        width: calc(100% - 21px);
+    .card-subtitle {
+        font-size: 1.5em;
+        position: absolute;
+        top: 10%;
+        width: 100%;
+        color: #fff;
+        font-size: 16px;
+        text-shadow: 1px 1px grey;
     }
+
+    .card-icon {
+        position: absolute;
+        bottom: 3px;
+        width: 100%;
+        color: rgba(255,255,255,0.8);
+        font-size: 1.5em;
+    }
+
+    .card-icon ion-icon {
+        float: right;
+        padding-right: 5px;
+    }
+
+    h3 {
+        padding-left: 16px;
+    }
+
 }
