@@ -15,4 +15,71 @@
 
 <ion-content no-padding>
 
+
+
+	<ion-card-content>
+
+    <ion-grid>
+    <ion-row>
+      <ion-col style="text-align:center">
+        <div >MON</div>
+        <ion-checkbox [disabled]="MON"  [(ngModel)]="MON_checked"></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >TUE</div>
+        <ion-checkbox [disabled]="TUE" [(ngModel)]="TUE_checked"></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >WED</div>
+        <ion-checkbox [disabled]="WED" [(ngModel)]="WED_checked"></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >THU</div>
+        <ion-checkbox [disabled]="THU" [(ngModel)]="THU_checked"></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >FRI</div>
+        <ion-checkbox [disabled]="FRI" [(ngModel)]="FRI_checked"></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >SAT</div>
+        <ion-checkbox [disabled]="SAT" [(ngModel)]="SAT_checked"></ion-checkbox>
+      </ion-col>
+      <ion-col style="text-align:center">
+        <div >SUN</div>
+        <ion-checkbox [disabled]="SUN" [(ngModel)]="SUN_checked"></ion-checkbox>
+      </ion-col>
+
+    </ion-row>
+    
+  </ion-grid>
+
+
+    <ion-grid>
+        <ion-row>
+
+        <div class="spacer" style="width: 300px; height: 10px;"></div>
+    <ion-item>
+      <ion-label>Start Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="HH mm" [(ngModel)]="event.timeStarts"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>End Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="HH mm" [(ngModel)]="event.timeEnds"></ion-datetime>
+    </ion-item>
+        
+         </ion-row>
+      </ion-grid>
+
+     <ion-fab right bottom>
+    	<button ion-fab (click)="goToAddPeriod()"><ion-icon name="add"></ion-icon></button>
+  	</ion-fab>
+
+  	<button ion-button full (click)="goToAddPeriod()">Add</button>
+
+    </ion-card-content>
+
+
+
+
 </ion-content>
