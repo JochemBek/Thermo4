@@ -18,6 +18,7 @@ export class ThermoService{
     startTime: string;
     endTime: string;
     onDay: string;
+    onDays: string[];
     startTimeNum: number;
     endTimeNum: number;
 
@@ -140,17 +141,27 @@ export class ThermoService{
         this.setWeekProgram();
     }
 
-    addPeriod_with_parameters(day, startHOUR, endHOUR) {
-        console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+    addPeriod_with_parameters(days, startHOUR, endHOUR) {
+        console.log("Hallo!");
         this.startTime = startHOUR;
         this.endTime = endHOUR;
-        this.onDay = day;
+        this.onDays = [];
+        this.onDays = days;
+        console.log(this.onDays);
         this.startTimeNum = this.parseTime(this.startTime);
+        console.log(this.startTimeNum);
         this.endTimeNum = this.parseTime(this.endTime);
-        this.Program[this.onDay].push([this.startTimeNum, this.endTimeNum]);
-        this.sortMergeProgram(this.onDay);
+        console.log(this.endTimeNum);
+
+
+        for(var i = 0; i < this.onDays.length; i++) {
+            console.log(this.onDays[i]);
+            this.Program[this.onDays[i]].push([this.startTimeNum, this.endTimeNum]);
+            this.sortMergeProgram(this.onDays[i]);
+        }
+        console.log(this.Program);
         this.setWeekProgram();
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        
     }
 
     sortMergeProgram(day) {

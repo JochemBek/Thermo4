@@ -1,3 +1,98 @@
 page-night-temperature {
 
+    .scroll-content {
+        padding: 0px;
+    }
+
+    .grid {
+        height:100%;
+        padding: 0px!important;
+        display: flex;
+        justify-content: center;
+        background-color: #362465;
+    }
+
+    .col {
+        padding: 0px!important;
+    }
+
+    .temperatureInput {
+        margin: auto;
+    }
+
+    .set-temp {
+        padding-left: 20px;
+    }
+    
+    .padding-top {
+        padding-top: 20px;
+    }
+    
+    .padding-right {
+        padding-right: 10px;
+    }
+
+    .temperatureInput {
+        text-align: center;
+        border: solid 1px rgba(0,0,0,0.1);
+    }
+
+    .label {
+        margin-right: 0px;
+    }
+
+    .up {
+        background-color: rgba(247,110,110,1);
+    }
+
+    .down {
+        background-color: rgba(72,138,255,1);
+    }
+
+    .extra-padding-right {
+        padding-right: 8px;
+    }
+
+    .extra2-padding-right {
+        padding-right: 16px;
+    }
+
+    .item-md.item-block .item-inner{
+        padding-right: 0px!important;
+    }
+
+    .bg-trans {
+        background-color: rgba(0,0,0,0);
+    }
+
+    .sticky-bottom {
+        position:absolute;
+        bottom: 0px;
+    }
+
+    .relative {
+        position: relative;
+    }
+
+    .range-knob {
+        outline: 0px!important;
+    }
+
+    input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0; 
+        }
+
+    .input-temp {
+        padding-left: 10px;
+        padding-right: 10px;
+        background-clip: content-box;
+    }
+
+    .bg-white-trans {
+        background-color: rgba(255,255,255,0.8);
+    }
 }

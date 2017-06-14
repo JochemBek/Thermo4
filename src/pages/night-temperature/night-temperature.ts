@@ -16,6 +16,8 @@ import { ThermoService } from '../../app/services/thermo.service';
 })
 export class NightTemperaturePage {
   nightTemp: number;
+  upenabled: boolean;
+  downenabled: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService, public toastCtrl: ToastController) {
     this.getNightTemp();
@@ -28,17 +30,41 @@ export class NightTemperaturePage {
   getNightTemp(){  
       this.thermoService.get("nightTemperature").subscribe(response => {
         this.nightTemp = Number(response.night_temperature);
+        if(this.nightTemp == 30) {
+          this.upenabled = false;
+        } else {
+          this.upenabled = true;
+        }
+        if(this.nightTemp == 5) {
+          this.downenabled = false;
+        } else {
+          this.downenabled = true;
+        }
       });
   }
 
   setNightTemp(){
+    if(this.nightTemp == 30) {
+      this.upenabled = false; 
+    }
     if(this.nightTemp > 30) {
+      this.upenabled = false; 
       this.presentTooHigh();
       this.nightTemp = 30;
     } 
+    if(this.nightTemp < 30) {
+      this.upenabled = true;
+    }
+    if(this.nightTemp == 5) {
+      this.downenabled = false;
+    }
     if(this.nightTemp < 5) {
+      this.downenabled = false;
       this.presentTooLow();
       this.nightTemp = 5;
+    }
+    if(this.nightTemp > 5) {
+      this.downenabled = true;
     }
     this.thermoService.put("nightTemperature", {"night_temperature" : (this.nightTemp).toString()}).subscribe();
   }
@@ -54,7 +80,7 @@ export class NightTemperaturePage {
   }
 
   nightTempDown(){
-    if(this.nightTemp > 5.5) {
+    if(this.nightTemp > 5.4) {
       this.nightTemp = this.nightTemp - 0.5;
     } else {
       this.nightTemp = 5;
@@ -67,7 +93,8 @@ export class NightTemperaturePage {
     console.log("Too High!");
     let toast = this.toastCtrl.create({
       message: 'That temperature is too high. The maximum is 30 degrees C.',
-      duration: 3000
+      duration: 3000,
+      position: 'top'
     });
     toast.present();
   }
@@ -76,7 +103,8 @@ export class NightTemperaturePage {
     console.log("Too Low!");
     let toast = this.toastCtrl.create({
         message: 'That temperature is too low. The minimum is 5 degrees C.',
-        duration: 5000
+        duration: 5000,
+        position: 'top'
       });
       toast.present();
   }

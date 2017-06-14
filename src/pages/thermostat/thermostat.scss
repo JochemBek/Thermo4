@@ -7,30 +7,47 @@ thermostat {
     .col {
         padding: 0px!important;
     }
+
+    .currentTempIcon {
+        ion-label {
+            margin-bottom: 0px;
+        }
+    }
     
     .currentTempCont {
-        font-size: 3.5em;
-        padding-bottom: 10px;
+        font-size: 3em;
+
+        ion-label {
+            margin-top: 0px;
+        }
     }
 
     .set-temp {
-        font-size: 1.5em;
+        font-size: 1.2em;
+        padding-left: 16px;
     }
 
-    .temperatureInput {
+    .narrow-bottom-m {
+        margin-bottom: 10px;
+    }
+
+    .temperature-input {
         margin: auto;
+        text-align: center;
+        border: solid 1px rgba(0,0,0,0.1);
     }
 
-    .currentTempCont ion-icon {
-        font-size: 0.75em;
+    .input-temp {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .schedule {
+        font-size: 0.8em;
     }
 
     .item-inner {
         border: none;
-    }
-
-    .set-temp {
-        padding-left: 20px;
     }
 
     .bg-dark {
@@ -40,16 +57,11 @@ thermostat {
     }
 
     .padding-top {
-        padding-top: 20px;
+        padding-top: 12px;
     }
     
     .padding-right {
         padding-right: 10px;
-    }
-
-    .temperatureInput {
-        text-align: center;
-        border: solid 1px rgba(0,0,0,0.1);
     }
 
     .label {
@@ -88,5 +100,13 @@ thermostat {
     .relative {
         position: relative;
     }
+
+    input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0; 
+        }
 
 }

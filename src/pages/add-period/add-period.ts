@@ -15,14 +15,14 @@ import { ThermoService } from '../../app/services/thermo.service';
   templateUrl: 'add-period.html',
 })
 export class AddPeriodPage {
-
-  MON: string;
-  TUE: string;
-  WED: string;
-  THU: string;
-  FRI: string;
-  SAT: string;
-  SUN: string;
+  day: string;
+  mondayFull: boolean;
+  tuesdayFull: boolean;
+  wednesdayFull: boolean;
+  thursdayFull: boolean;
+  fridayFull: boolean;
+  saturdayFull: boolean;
+  sundayFull: boolean;
 
   MON_checked: any;
   TUE_checked: any;
@@ -31,6 +31,7 @@ export class AddPeriodPage {
   FRI_checked: any;
   SAT_checked: any;
   SUN_checked: any;
+  days: string[];
 
 
   public event = {
@@ -41,54 +42,88 @@ export class AddPeriodPage {
   thService: any;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService) {
-
-    if (thermoService.Program['Monday'].length>=5) { this.MON='true'; }else{  this.MON='false';  }
-    if (thermoService.Program['Tuesday'].length>=5) { this.TUE='true'; }else{  this.TUE='false';  }
-    if (thermoService.Program['Wednesday'].length>=5) { this.WED='true'; }else{  this.WED='false';  }
-    if (thermoService.Program['Thursday'].length>=5) { this.THU='true'; }else{  this.THU='false';  }
-    if (thermoService.Program['Friday'].length>=5) { this.FRI='true'; }else{  this.FRI='false';  }
-    if (thermoService.Program['Saturday'].length>=5) { this.SAT='true'; }else{  this.SAT='false';  }
-    if (thermoService.Program['Sunday'].length>=5) { this.SUN='true'; }else{  this.SUN='false';  }
-
+  constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService, public toastCtrl: ToastController) {
+    console.log("There are " + thermoService.Program['Monday'].length + " on monday");
+    this.initProgramLengths();
+    this.getDay();
   }
-
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddPeriodPage');
+    this.initProgramLengths();
+    this.getDay();
   }
 
-
-  goToAddPeriod(){
-    //console.log(this.event.timeEnds)
-    console.log(this.MON_checked)
-
-    if (this.MON_checked==true) {
-      this.thermoService.addPeriod_with_parameters("Monday", this.event.timeStarts, this.event.timeEnds);
-    }
-    if (this.TUE_checked==true) {
-      this.thermoService.addPeriod_with_parameters("Monday", this.event.timeStarts, this.event.timeEnds);
-    }
-    if (this.WED_checked==true) {
-      this.thermoService.addPeriod_with_parameters("Monday", this.event.timeStarts, this.event.timeEnds);
-    }
-    if (this.THU_checked==true) {
-      this.thermoService.addPeriod_with_parameters("Monday", this.event.timeStarts, this.event.timeEnds);
-    }
-    if (this.FRI_checked==true) {
-      this.thermoService.addPeriod_with_parameters("Monday", this.event.timeStarts, this.event.timeEnds);
-    }
-    if (this.SAT_checked==true) {
-      this.thermoService.addPeriod_with_parameters("Monday", this.event.timeStarts, this.event.timeEnds);
-    }
-    if (this.SUN_checked==true) {
-      this.thermoService.addPeriod_with_parameters("Monday", this.event.timeStarts, this.event.timeEnds);
-    }
-
-
-
+  initProgramLengths() {
+    this.days = [];
+    if (this.thermoService.Program['Monday'].length>=5) { this.mondayFull=true; }else{  this.mondayFull=false;  }
+    if (this.thermoService.Program['Tuesday'].length>=5) { this.tuesdayFull=true; }else{  this.tuesdayFull=false;  }
+    if (this.thermoService.Program['Wednesday'].length>=5) { this.wednesdayFull=true; }else{  this.wednesdayFull=false;  }
+    if (this.thermoService.Program['Thursday'].length>=5) { this.thursdayFull=true }else{  this.thursdayFull=false;  }
+    if (this.thermoService.Program['Friday'].length>=5) { this.fridayFull=true; }else{  this.fridayFull=false;  }
+    if (this.thermoService.Program['Saturday'].length>=5) { this.saturdayFull=true; }else{  this.saturdayFull=false;  }
+    if (this.thermoService.Program['Sunday'].length>=5) { this.sundayFull=true; }else{  this.sundayFull=false;  }
   }
 
+  getDay() {
+    this.day = this.navParams.get('day');
+    if(this.day == 'Monday') {
+      this.MON_checked = true;
+    } else if(this.day == 'Tuesday') {
+      this.TUE_checked = true;
+    } else if(this.day == 'Wednesday') {
+      this.WED_checked = true;
+    } else if(this.day == 'Thursday') {
+      this.THU_checked = true;
+    } else if(this.day == 'Friday') {
+      this.FRI_checked = true;
+    } else if(this.day == 'Saturday') {
+      this.SAT_checked = true;
+    } else if(this.day == 'Sunday') {
+      this.SUN_checked = true;
+    }
+  }
 
+  setPeriod(){
+    if(this.parseTime(this.event.timeEnds) > this.parseTime(this.event.timeStarts)) {
+      if (this.MON_checked==true) {
+        this.days.push('Monday');
+      }
+      if (this.TUE_checked==true) {
+        this.days.push('Tuesday');
+      }
+      if (this.WED_checked==true) {
+        this.days.push('Wednesday');
+      }
+      if (this.THU_checked==true) {
+        this.days.push('Thursday');
+      }
+      if (this.FRI_checked==true) {
+        this.days.push('Friday');
+      }
+      if (this.SAT_checked==true) {
+        this.days.push('Saturday');
+      }
+      if (this.SUN_checked==true) {
+        this.days.push('Sunday');
+      }
+      this.thermoService.addPeriod_with_parameters(this.days, this.event.timeStarts, this.event.timeEnds);
 
+      this.navCtrl.pop();
+    } else {
+      this.presentTimeDif();
+    }    
+  }
+
+  presentTimeDif() {
+    let toast = this.toastCtrl.create({
+        message: 'Please fill in an end time that is later than the start time.',
+        duration: 4500,
+        position: 'top'
+      });
+      toast.present();
+  }
+
+  parseTime(t) {
+      return parseFloat(t.substr(0,2)) + parseFloat(t.substr(3,2))/60;
+  }
 }

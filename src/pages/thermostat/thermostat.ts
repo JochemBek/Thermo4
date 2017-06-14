@@ -98,9 +98,6 @@ export class ThermostatPage {
     if(this.targetTemp == 30) {
       this.upenabled = false;
     }
-    if(this.targetTemp == 5 && this.schedule) {
-      this.downenabled = true;
-    }
     if(this.targetTemp > 30) {
       this.upenabled = false;
       this.presentTooHigh();
@@ -136,7 +133,7 @@ export class ThermostatPage {
   }
 
   tempDown(){
-    if(this.targetTemp > 5.5) {
+    if(this.targetTemp > 5.4) {
       this.targetTemp = this.targetTemp - 0.5;
     } else {
       this.targetTemp = 5;

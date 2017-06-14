@@ -13,20 +13,51 @@
 </ion-header>
 
 
-<ion-content padding>
-          <ion-item>
-            <button ion-button (click)="nightTempUp()" color="light"><ion-icon name="arrow-up"></ion-icon>Up</button>
-          </ion-item>
-          <ion-item>
-              <ion-input [(ngModel)]="nightTemp" type="number" (ionChange)="setNightTemp()"></ion-input>
-          </ion-item>
-          <ion-item>
-            <button ion-button (click)="nightTempDown()" color="light"><ion-icon name="arrow-down"></ion-icon>Down</button>
-          </ion-item>
-          <ion-item> 
-            <ion-range [ngModel]="10*nightTemp" (ngModelChange)="nightTemp=$event/10" min="50" max="300" step="1" snap="true" debounce="700" (ionChange)="setNightTemp()">
-              <ion-icon range-left small name="snow"></ion-icon>
-              <ion-icon range-right name="sunny"></ion-icon>
-            </ion-range>
-          </ion-item>
+<ion-content no-padding>
+
+  <ion-grid>
+    <ion-row class="extra-padding-right">
+      <ion-col offset-4>
+      </ion-col>
+      <ion-col col-4 text-center>
+        <ion-item no-padding text-center no-lines class="bg-trans">  <!-- Below, you see (click)="tempUp(): the ( ) brackets are used to listen for events, and the function is the one called in thermostat.ts -->
+          <button ion-button (click)="nightTempUp()" [disabled]="!upenabled" class="up"><ion-icon name="arrow-up"></ion-icon>&nbsp;Up</button>
+        </ion-item>
+      </ion-col>
+      <ion-col offset-4>
+      </ion-col>
+    </ion-row>
+    <ion-row class="extra-padding-right">
+      <ion-col offset-4>
+      </ion-col>
+      <ion-col col-4 text-center class="bg-trans">
+        <ion-item no-padding text-center no-lines class="input-temp bg-white-trans">
+          <ion-input [(ngModel)]="nightTemp" type="number" (ionChange)="setNightTemp()" class="temperatureInput" text-center no-padding></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col offset-4>
+      </ion-col>
+    </ion-row>
+    <ion-row class="extra-padding-right">
+      <ion-col offset-4>
+      </ion-col>
+      <ion-col col-4 text-center>
+        <ion-item no-padding text-center no-lines class="bg-trans">
+          <button ion-button (click)="nightTempDown()" [disabled]="!downenabled" class="down"><ion-icon name="arrow-down"></ion-icon>&nbsp;Down</button>
+        </ion-item>
+      </ion-col>
+      <ion-col offset-4>
+      </ion-col>
+    </ion-row>
+    <ion-row class="extra2-padding-right">
+      <ion-col text-center>
+        <ion-item no-lines class="bg-trans"> <!-- Below, you see [(ngModel)]: you only use this for inputs-elements. With this, you set the defined variable from thermostat.ts (targetTempTen here) to the input-element-value. This works two ways: if in this input the variable is changed, it is also changed in thermostat.ts, but also vice versa. -->
+          <ion-range [ngModel]="10*nightTemp" (ngModelChange)="nightTemp=$event/10" min="50" max="300" step="1" snaps="true" debounce="700" (ionChange)="setNightTemp()">
+            <ion-icon range-left small name="thermometer"></ion-icon>
+            <ion-icon range-right name="thermometer"></ion-icon>
+          </ion-range>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

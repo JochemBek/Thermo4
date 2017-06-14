@@ -40,6 +40,6 @@
   </ion-card>
 
   <ion-fab right bottom>
-    <button ion-fab (click)="goToAddPeriod()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab (click)="goToAddPeriod()" [disabled]="!canAdd"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>

@@ -18,12 +18,18 @@ export class DayPage {
   day: string;
   periods: any[];
   periodsAdv: Period[];
+  canAdd: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService) {
     this.day = navParams.get('day');
   }
 
   ionViewWillEnter() {
+    if(this.thermoService.Program[this.day].length < 5){
+      this.canAdd = true;
+    } else {
+      this.canAdd = false;
+    }
     this.periods = this.thermoService.getDayProgram(this.day);
     console.log(this.periods);
     this.periodsAdv = [];
@@ -51,7 +57,9 @@ export class DayPage {
   }
 
   goToAddPeriod() { 
-    this.navCtrl.push(AddPeriodPage);
+    this.navCtrl.push(AddPeriodPage, {
+      day: this.day
+    });
   }
 
   parseTime(t) {
