@@ -11,10 +11,13 @@ import * as $ from 'jquery';
 export class ThermostatPage {
   currentTemp: number;
   targetTemp: number;
-  locked: boolean;
+  schedule: boolean;
   currentDay: string;
   currentTime: string;
   servers: string;
+  upenabled: boolean;
+  downenabled: boolean;
+  inputenabled: boolean;
 
   constructor(public navCtrl: NavController, private thermoService:ThermoService, public toastCtrl: ToastController) {
     this.initialize();
@@ -44,12 +47,25 @@ export class ThermostatPage {
       this.thermoService.get("weekProgramState").subscribe(response => {
         if(response.week_program_state == "off") {
           this.thermoService.setProgramState(false);
-          this.locked = true; 
+          this.schedule = false;
+          console.log("The schedule is off");
+          this.inputenabled = false;
+          this.upenabled = false;
+          this.downenabled = false;
         } else {
           this.thermoService.setProgramState(true);
-          this.locked = false;
+          this.schedule = true;
+          this.inputenabled = true;
+          if(this.targetTemp < 30) {
+            this.upenabled = true;
+          } 
+          if(this.targetTemp > 5) {
+            this.downenabled = true;
+          }
+          console.log("The schedule is on");  
         }
       });
+      console.log(this.schedule);
   }
 
   getCurrentTemperature(){
@@ -61,18 +77,50 @@ export class ThermostatPage {
   getTargetTemperature(){ 
       this.thermoService.get("targetTemperature").subscribe(response => {
         this.targetTemp = Number(response.target_temperature);
+        if(this.targetTemp == 30) {
+          this.upenabled = false;
+        } else {
+          if(this.schedule) {
+            this.upenabled = true;
+          }
+        }
+        if(this.targetTemp == 5) {
+          this.downenabled = false;
+        } else {
+          if(this.schedule) {
+            this.downenabled = true;
+          }
+        }
       });
   }
 
   setTargetTemp(){
+    if(this.targetTemp == 30) {
+      this.upenabled = false;
+    }
+    if(this.targetTemp == 5 && this.schedule) {
+      this.downenabled = true;
+    }
     if(this.targetTemp > 30) {
+      this.upenabled = false;
       this.presentTooHigh();
       this.targetTemp = 30;
     } 
+    if(this.targetTemp < 30 && this.schedule) {
+      this.upenabled = true;
+    }
+    if(this.targetTemp == 5) {
+      this.downenabled = false;
+    }
     if(this.targetTemp < 5) {
+      this.downenabled = false; 
       this.presentTooLow();
       this.targetTemp = 5;
+    } 
+    if(this.targetTemp > 5 && this.schedule) {
+      this.downenabled = true;
     }
+    console.log("Up is enabled: " + this.upenabled + " and down is enabled: " + this.downenabled)
     this.thermoService.put("targetTemperature", {"target_temperature" : (this.targetTemp).toString()}).subscribe();
     console.log("go");
   }
@@ -98,13 +146,26 @@ export class ThermostatPage {
   }
 
   toggleLock(){
-    if(this.locked == true) {
-      this.locked = false;
+    console.log("toggled: " + this.schedule);
+    if(this.schedule == true) {
+      this.presentUnlocked();
+      this.schedule = true;
       this.thermoService.setProgramState(true);
+      this.inputenabled = true;
+      if(this.targetTemp < 30) {
+        this.upenabled = true;
+      } 
+      if(this.targetTemp > 5) {
+        this.downenabled = true;
+      }
       this.setLockOff();
     } else {
+      this.presentLocked();
+      this.inputenabled = false;
+      this.upenabled = false;
+      this.downenabled = false;
       this.thermoService.setProgramState(false);
-      this.locked = true;
+      this.schedule = false;
       this.setLockOn();
     }
   }
@@ -133,8 +194,9 @@ export class ThermostatPage {
   presentTooHigh() {
     console.log("Too High!");
     let toast = this.toastCtrl.create({
-      message: 'That temperature is too high. The maximum is 30 degrees C.',
-      duration: 3000
+      message: 'That temperature is too high. The maximum is 30°C.',
+      duration: 4500,
+      position: 'top'
     });
     toast.present();
   }
@@ -142,9 +204,34 @@ export class ThermostatPage {
   presentTooLow() {
     console.log("Too Low!");
     let toast = this.toastCtrl.create({
-        message: 'That temperature is too low. The minimum is 5 degrees C.',
-        duration: 5000
+        message: 'That temperature is too low. The minimum is 5°C.',
+        duration: 4500,
+        position: 'top'
       });
       toast.present();
+  }
+
+  presentLocked() {
+    console.log("Schedule off!");
+    let toast = this.toastCtrl.create({
+        message: 'The temperature is now locked and will NOT follow your schedule.',
+        duration: 5500,
+        position: 'top'
+      });
+      toast.present();
+  }
+
+  presentUnlocked() {
+    console.log("Schedule on!");
+    let toast = this.toastCtrl.create({
+        message: 'The temperature is now unlocked and will change according to your schedule.',
+        duration: 5500,
+        position: 'top'
+      });
+      toast.present();
+  }
+
+  help() {
+    console.log("clicked");
   }
 }

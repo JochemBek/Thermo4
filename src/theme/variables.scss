@@ -32,6 +32,7 @@ $colors: (
 );
 
 
+
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
@@ -42,6 +43,18 @@ $colors: (
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
+
+$range-md-knob-width: 28px;
+$range-md-bar-height: 1px;
+$range-md-bar-background-color: #488aff;
+$range-md-bar-active-background-color:red;
+$range-md-knob-background-color: #f76e6e;
+$range-md-knob-min-background-color: #488aff;
+$range-md-tick-width: 0px;
+$range-md-tick-height: 0px;
+
+$text-input-highlight-color-valid: grey;
+
 
 
 
