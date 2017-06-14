@@ -30,7 +30,20 @@
 
       </ion-row>
     </ion-grid>
-    <h3> Days </h3>
+    <ion-grid no-padding>
+      <ion-row class="bg-dark">
+          <ion-col col-7>
+            <ion-item no-padding no-lines class="padding-top bg-trans"> 
+              <ion-label class="title narrow-bottom-m"> Days </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col col-5 class="relative">
+            <ion-item no-padding no-lines class="bg-trans sticky-bottom padding-right">
+                <button ion-button item-right class="clear-all" (click)="clearFullSchedule()" text-right><ion-icon name="trash"></ion-icon>&nbsp;Clear all days </button>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
     <ion-list>
       <button ion-item *ngFor="let day of days" (click)="daySelected(day.day)">
         {{day.day}}

@@ -4,6 +4,7 @@ import { DayTemperaturePage } from '../day-temperature/day-temperature';
 import { NightTemperaturePage } from '../night-temperature/night-temperature';
 import { DayPage } from '../day/day';
 import { ThermoService } from '../../app/services/thermo.service';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'schedule',
@@ -14,7 +15,7 @@ export class SchedulePage {
   dayTemp: number;
   days: day[];
 
-  constructor(public navCtrl: NavController, private thermoService:ThermoService) {
+  constructor(public navCtrl: NavController, private thermoService:ThermoService, private alertCtrl: AlertController) {
     this.getNightTemp();
     this.getDayTemp();
 
@@ -64,6 +65,30 @@ export class SchedulePage {
     this.navCtrl.push(DayPage, {
       day: day 
     });
+  }
+
+  clearFullSchedule(){
+    let alert = this.alertCtrl.create({
+      title: 'Confirm deletion',
+      message: 'Are you sure you want to delete all periods in your schedule?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('No clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            console.log('Yes clicked');
+            this.thermoService.clearWholeSchedule();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }
 

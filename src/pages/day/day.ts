@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController } from 'ionic-angular'; 
 import { ThermoService } from '../../app/services/thermo.service';
 import { AddPeriodPage } from '../add-period/add-period';
 
@@ -20,7 +21,7 @@ export class DayPage {
   periodsAdv: Period[];
   canAdd: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService, private alertCtrl: AlertController) {
     this.day = navParams.get('day');
   }
 
@@ -54,6 +55,37 @@ export class DayPage {
   
       console.log(this.periodsAdv[period]);
     }
+  }
+
+  clearDay(){
+    let alert = this.alertCtrl.create({
+      title: 'Confirm deletion',
+      message: 'Are you sure you want to delete all periods?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('No clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            console.log('Yes clicked');
+            this.thermoService.clearDay(this.day);
+            this.ionViewWillEnter();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  clearPeriod(period){
+    console.log(period);
+    this.thermoService.clearPeriod(period, this.day);
+    this.ionViewWillEnter();
   }
 
   goToAddPeriod() { 

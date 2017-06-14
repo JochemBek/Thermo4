@@ -22,6 +22,9 @@ export class ThermoService{
     startTimeNum: number;
     endTimeNum: number;
 
+    startTimeDel: number;
+    endTimeDel: number;
+
     ProgramState: boolean;
     MaxSwitches: number;
     Type: Type;
@@ -161,7 +164,40 @@ export class ThermoService{
         }
         console.log(this.Program);
         this.setWeekProgram();
+    }
+
+    clearDay(day) {
+        this.Program[day] = [];
+        this.setWeekProgram();
+    }
+
+    clearPeriod(period, day) {
+        this.startTimeDel = this.parseTime(period.startTime);
+        this.endTimeDel = this.parseTime(period.endTime);
+        console.log("Deleting: " + this.startTimeDel + " - " + this.endTimeDel);
+
+        console.log(this.Program[day]);
         
+        for(var i = 0; i < this.Program[day].length; i++){
+            if(this.Program[day][i][0] == this.startTimeDel){
+                if(this.Program[day][i][1] == this.endTimeDel){
+                    this.Program[day].splice(i, 1);
+                    console.log(this.Program[day]);
+                    this.setWeekProgram();
+                }   
+            }            
+        }
+    }
+
+    clearWholeSchedule() {
+        this.Program['Monday']=[];
+        this.Program['Tuesday']=[];
+        this.Program['Wednesday']=[];
+        this.Program['Thursday']=[];
+        this.Program['Friday']=[];
+        this.Program['Saturday']=[];
+        this.Program['Sunday']=[];
+        this.setWeekProgram();
     }
 
     sortMergeProgram(day) {

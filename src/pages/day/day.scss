@@ -1,3 +1,30 @@
 page-day {
 
+    .bg-dark {
+        background-color: rgba(1, 154, 225, 0.16);
+        border-top: 1px solid #d4d4d9;
+        border-bottom: 1px solid #d4d4d9;    
+    }
+
+    .bg-trans {
+        background-color: rgba(0,0,0,0);
+    }
+
+    .title {
+        font-size: 1.2em;
+        padding-left: 16px;
+    }
+
+    .relative {
+        position: relative;
+    }
+
+    .sticky-bottom {
+        position: absolute;
+        bottom: 0px;
+    }
+
+    .narrow-bottom-m {
+        margin-bottom: 10px;
+    }
 }

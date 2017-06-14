@@ -18,6 +18,7 @@ export class DayTemperaturePage {
   dayTemp: number;
   upenabled: boolean;
   downenabled: boolean;
+  inputbusy: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService, public toastCtrl: ToastController) {
     this.getDayTemp();
@@ -44,29 +45,31 @@ export class DayTemperaturePage {
   }
   
   setDayTemp(){
-    if(this.dayTemp == 30) {
-      this.upenabled = false; 
+    if(!this.inputbusy) {
+      if(this.dayTemp == 30) {
+        this.upenabled = false; 
+      }
+      if(this.dayTemp > 30) {
+        this.upenabled = false; 
+        this.presentTooHigh();
+        this.dayTemp = 30;
+      } 
+      if(this.dayTemp < 30) {
+        this.upenabled = true;
+      }
+      if(this.dayTemp == 5) {
+        this.downenabled = false;
+      }
+      if(this.dayTemp < 5) {
+        this.downenabled = false;
+        this.presentTooLow();
+        this.dayTemp = 5;
+      }
+      if(this.dayTemp > 5) {
+        this.downenabled = true;
+      }
+      this.thermoService.put("dayTemperature", {"day_temperature" : (this.dayTemp).toString()}).subscribe();
     }
-    if(this.dayTemp > 30) {
-      this.upenabled = false; 
-      this.presentTooHigh();
-      this.dayTemp = 30;
-    } 
-    if(this.dayTemp < 30) {
-      this.upenabled = true;
-    }
-    if(this.dayTemp == 5) {
-      this.downenabled = false;
-    }
-    if(this.dayTemp < 5) {
-      this.downenabled = false;
-      this.presentTooLow();
-      this.dayTemp = 5;
-    }
-    if(this.dayTemp > 5) {
-      this.downenabled = true;
-    }
-    this.thermoService.put("dayTemperature", {"day_temperature" : (this.dayTemp).toString()}).subscribe();
   }
 
   dayTempUp(){
@@ -92,7 +95,7 @@ export class DayTemperaturePage {
   presentTooHigh() {
     console.log("Too High!");
     let toast = this.toastCtrl.create({
-      message: 'That temperature is too high. The maximum is 30 degrees C.',
+      message: 'That temperature is too high. The maximum is 30° C.',
       duration: 3000,
       position: 'top'
     });
@@ -102,10 +105,19 @@ export class DayTemperaturePage {
   presentTooLow() {
     console.log("Too Low!");
     let toast = this.toastCtrl.create({
-        message: 'That temperature is too low. The minimum is 5 degrees C.',
+        message: 'That temperature is too low. The minimum is 5° C.',
         duration: 5000,
         position: 'top'
       });
       toast.present();
+  }
+
+  inInput() {
+    this.inputbusy = true;
+  }
+
+  outInput() {
+    this.inputbusy = false;
+    this.setDayTemp();
   }
 }

@@ -18,6 +18,7 @@ export class ThermostatPage {
   upenabled: boolean;
   downenabled: boolean;
   inputenabled: boolean;
+  inputbusy: boolean;
 
   constructor(public navCtrl: NavController, private thermoService:ThermoService, public toastCtrl: ToastController) {
     this.initialize();
@@ -95,31 +96,33 @@ export class ThermostatPage {
   }
 
   setTargetTemp(){
-    if(this.targetTemp == 30) {
-      this.upenabled = false;
+    if(!this.inputbusy) {
+      if(this.targetTemp == 30) {
+        this.upenabled = false;
+      }
+      if(this.targetTemp > 30) {
+        this.upenabled = false;
+        this.presentTooHigh();
+        this.targetTemp = 30;
+      } 
+      if(this.targetTemp < 30 && this.schedule) {
+        this.upenabled = true;
+      }
+      if(this.targetTemp == 5) {
+        this.downenabled = false;
+      }
+      if(this.targetTemp < 5) {
+        this.downenabled = false; 
+        this.presentTooLow();
+        this.targetTemp = 5;
+      } 
+      if(this.targetTemp > 5 && this.schedule) {
+        this.downenabled = true;
+      }
+      console.log("Up is enabled: " + this.upenabled + " and down is enabled: " + this.downenabled)
+      this.thermoService.put("targetTemperature", {"target_temperature" : (this.targetTemp).toString()}).subscribe();
+      console.log("go");
     }
-    if(this.targetTemp > 30) {
-      this.upenabled = false;
-      this.presentTooHigh();
-      this.targetTemp = 30;
-    } 
-    if(this.targetTemp < 30 && this.schedule) {
-      this.upenabled = true;
-    }
-    if(this.targetTemp == 5) {
-      this.downenabled = false;
-    }
-    if(this.targetTemp < 5) {
-      this.downenabled = false; 
-      this.presentTooLow();
-      this.targetTemp = 5;
-    } 
-    if(this.targetTemp > 5 && this.schedule) {
-      this.downenabled = true;
-    }
-    console.log("Up is enabled: " + this.upenabled + " and down is enabled: " + this.downenabled)
-    this.thermoService.put("targetTemperature", {"target_temperature" : (this.targetTemp).toString()}).subscribe();
-    console.log("go");
   }
 
   tempUp(){
@@ -230,5 +233,14 @@ export class ThermostatPage {
 
   help() {
     console.log("clicked");
+  }
+
+  inInput() {
+    this.inputbusy = true;
+  }
+
+  outInput() {
+    this.inputbusy = false;
+    this.setTargetTemp();
   }
 }
