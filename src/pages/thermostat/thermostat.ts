@@ -11,7 +11,7 @@ import * as $ from 'jquery';
 export class ThermostatPage {
   currentTemp: number;
   targetTemp: number;
-  schedule: boolean;
+  lock: boolean;
   currentDay: string;
   currentTime: string;
   servers: string;
@@ -48,14 +48,14 @@ export class ThermostatPage {
       this.thermoService.get("weekProgramState").subscribe(response => {
         if(response.week_program_state == "off") {
           this.thermoService.setProgramState(false);
-          this.schedule = false;
+          this.lock = true;
           console.log("The schedule is off");
           this.inputenabled = false;
           this.upenabled = false;
           this.downenabled = false;
         } else {
           this.thermoService.setProgramState(true);
-          this.schedule = true;
+          this.lock = false;
           this.inputenabled = true;
           if(this.targetTemp < 30) {
             this.upenabled = true;
@@ -66,7 +66,7 @@ export class ThermostatPage {
           console.log("The schedule is on");  
         }
       });
-      console.log(this.schedule);
+      console.log(this.lock);
   }
 
   getCurrentTemperature(){
@@ -81,14 +81,14 @@ export class ThermostatPage {
         if(this.targetTemp == 30) {
           this.upenabled = false;
         } else {
-          if(this.schedule) {
+          if(!this.lock) {
             this.upenabled = true;
           }
         }
         if(this.targetTemp == 5) {
           this.downenabled = false;
         } else {
-          if(this.schedule) {
+          if(!this.lock) {
             this.downenabled = true;
           }
         }
@@ -105,7 +105,7 @@ export class ThermostatPage {
         this.presentTooHigh();
         this.targetTemp = 30;
       } 
-      if(this.targetTemp < 30 && this.schedule) {
+      if(this.targetTemp < 30 && !this.lock) {
         this.upenabled = true;
       }
       if(this.targetTemp == 5) {
@@ -116,7 +116,7 @@ export class ThermostatPage {
         this.presentTooLow();
         this.targetTemp = 5;
       } 
-      if(this.targetTemp > 5 && this.schedule) {
+      if(this.targetTemp > 5 && !this.lock) {
         this.downenabled = true;
       }
       console.log("Up is enabled: " + this.upenabled + " and down is enabled: " + this.downenabled)
@@ -146,11 +146,16 @@ export class ThermostatPage {
   }
 
   toggleLock(){
-    console.log("toggled: " + this.schedule);
-    if(this.schedule == true) {
+    console.log("toggled: " + this.lock);
+    if(this.lock == true) {
+      this.presentLocked();
+      this.thermoService.setProgramState(false);
+      this.inputenabled = false;
+      this.upenabled = false;
+      this.downenabled = false;
+      this.setLockOn();
+    } else {
       this.presentUnlocked();
-      this.schedule = true;
-      this.thermoService.setProgramState(true);
       this.inputenabled = true;
       if(this.targetTemp < 30) {
         this.upenabled = true;
@@ -158,15 +163,8 @@ export class ThermostatPage {
       if(this.targetTemp > 5) {
         this.downenabled = true;
       }
+      this.thermoService.setProgramState(true);
       this.setLockOff();
-    } else {
-      this.presentLocked();
-      this.inputenabled = false;
-      this.upenabled = false;
-      this.downenabled = false;
-      this.thermoService.setProgramState(false);
-      this.schedule = false;
-      this.setLockOn();
     }
   }
 
