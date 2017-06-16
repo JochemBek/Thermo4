@@ -74,7 +74,7 @@ export class NightTemperaturePage {
 
   nightTempUp(){
     if(this.nightTemp < 29.6) {
-      this.nightTemp = this.nightTemp + 0.5;
+      this.nightTemp = Math.round((this.nightTemp + 0.5) * 10) / 10;
     } else {
       this.nightTemp = 30;
       this.presentTooHigh();
@@ -84,7 +84,7 @@ export class NightTemperaturePage {
 
   nightTempDown(){
     if(this.nightTemp > 5.4) {
-      this.nightTemp = this.nightTemp - 0.5;
+      this.nightTemp = Math.round((this.nightTemp - 0.5) * 10) / 10;
     } else {
       this.nightTemp = 5;
       this.presentTooLow();

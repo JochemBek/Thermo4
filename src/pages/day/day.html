@@ -23,7 +23,7 @@
         </ion-col>
         <ion-col col-4 class="relative">
           <ion-item no-padding no-lines class="bg-trans sticky-bottom padding-right">
-              <button ion-button item-right class="clear-all" (click)="clearDay()" text-right><ion-icon name="trash"></ion-icon>&nbsp;Clear all </button>
+              <button ion-button item-right class="clear-all" [disabled]="!canClear" (click)="clearDay()" text-right><ion-icon name="trash"></ion-icon>&nbsp;Clear all </button>
           </ion-item>
         </ion-col>
       </ion-row>

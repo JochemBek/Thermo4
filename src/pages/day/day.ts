@@ -20,6 +20,7 @@ export class DayPage {
   periods: any[];
   periodsAdv: Period[];
   canAdd: boolean;
+  canClear: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService, private alertCtrl: AlertController) {
     this.day = navParams.get('day');
@@ -31,6 +32,11 @@ export class DayPage {
     } else {
       this.canAdd = false;
     }
+    if(this.thermoService.Program[this.day].length == 0){
+      this.canClear = false;
+    } else {
+      this.canClear = true;
+    }
     this.periods = this.thermoService.getDayProgram(this.day);
     console.log(this.periods);
     this.periodsAdv = [];
@@ -41,7 +47,7 @@ export class DayPage {
     for(var period in this.periods){
       var sTime = this.parseTime(this.periods[period][0]);
       var eTime = this.parseTime(this.periods[period][1]);
-      var difTime = eTime - sTime;
+      var difTime = Math.round((eTime - sTime) * 10) / 10;
       var length; 
       if(difTime < 3) {
         length = 'Short';

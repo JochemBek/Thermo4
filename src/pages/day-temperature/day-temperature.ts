@@ -74,7 +74,7 @@ export class DayTemperaturePage {
 
   dayTempUp(){
     if(this.dayTemp < 29.6) {
-      this.dayTemp = this.dayTemp + 0.5;
+      this.dayTemp = Math.round((this.dayTemp + 0.5) * 10) / 10;
     } else {
       this.dayTemp = 30;
       this.presentTooHigh();
@@ -84,7 +84,7 @@ export class DayTemperaturePage {
 
   dayTempDown(){
     if(this.dayTemp > 5.4) {
-      this.dayTemp = this.dayTemp - 0.5;
+      this.dayTemp = Math.round((this.dayTemp - 0.5) * 10) / 10;
     } else {
       this.dayTemp = 5;
       this.presentTooLow();

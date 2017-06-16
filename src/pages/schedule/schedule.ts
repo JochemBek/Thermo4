@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { DayTemperaturePage } from '../day-temperature/day-temperature';
 import { NightTemperaturePage } from '../night-temperature/night-temperature';
 import { DayPage } from '../day/day';
 import { ThermoService } from '../../app/services/thermo.service';
 import { AlertController } from 'ionic-angular';
+import { AddPeriodPage } from '../add-period/add-period';
 
 @Component({
   selector: 'schedule',
@@ -14,25 +15,21 @@ export class SchedulePage {
   nightTemp: number;
   dayTemp: number;
   days: day[];
+  daysMessage: string[];
+  canClear: boolean;
+  canAdd: boolean;
 
-  constructor(public navCtrl: NavController, private thermoService:ThermoService, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService:ThermoService, private alertCtrl: AlertController) {
     this.getNightTemp();
     this.getDayTemp();
-
-    this.days = [
-      {day: "Monday", content: "Maandag"},
-      {day: "Tuesday", content: "Dinsdag"},
-      {day: "Wednesday", content: "Woensdag"},
-      {day: "Thursday", content: "Donderdag"},
-      {day: "Friday", content: "Vrijdag"},
-      {day: "Saturday", content: "Zaterdag"},
-      {day: "Sunday", content: "Zondag"}
-    ]
+    this.setDays();    
   } 
 
   ionViewWillEnter() {
     this.getNightTemp();
-    this.getDayTemp();
+    this.getDayTemp();    
+    this.setDays();
+    this.setClear();
   }
 
   ionViewDidEnter() {
@@ -50,6 +47,32 @@ export class SchedulePage {
       this.thermoService.get("dayTemperature").subscribe(response => {
         this.dayTemp = Number(response.day_temperature);
       });
+  }
+
+  setDays() {
+      this.days = [
+        {day: "Monday", period: this.thermoService.Program['Monday'].length},
+        {day: "Tuesday", period: this.thermoService.Program['Tuesday'].length},
+        {day: "Wednesday", period: this.thermoService.Program['Wednesday'].length},
+        {day: "Thursday", period: this.thermoService.Program['Thursday'].length},
+        {day: "Friday", period: this.thermoService.Program['Friday'].length},
+        {day: "Saturday", period: this.thermoService.Program['Saturday'].length},
+        {day: "Sunday", period: this.thermoService.Program['Sunday'].length}
+      ]
+  }
+
+  setClear() {
+    if(this.thermoService.Program['Monday'].length == 0 && this.thermoService.Program['Tuesday'].length == 0 && this.thermoService.Program['Wednesday'].length == 0 &&  this.thermoService.Program['Thursday'].length == 0 &&  this.thermoService.Program['Friday'].length == 0 &&  this.thermoService.Program['Saturday'].length == 0 &&  this.thermoService.Program['Sunday'].length == 0){
+      this.canClear = false;
+      this.canAdd = true;
+    } else if(this.thermoService.Program['Monday'].length == 5 && this.thermoService.Program['Tuesday'].length == 5 && this.thermoService.Program['Wednesday'].length == 5 &&  this.thermoService.Program['Thursday'].length == 5 &&  this.thermoService.Program['Friday'].length == 5 &&  this.thermoService.Program['Saturday'].length == 5 &&  this.thermoService.Program['Sunday'].length == 5){
+      console.log("can't add");
+      this.canClear = true;
+      this.canAdd = false; 
+    } else {
+      this.canClear = true;
+      this.canAdd = true;
+    }
   }
 
   goToDay(){
@@ -84,15 +107,23 @@ export class SchedulePage {
           handler: () => {
             console.log('Yes clicked');
             this.thermoService.clearWholeSchedule();
+            this.canClear = false;
+            this.canAdd = true;
           }
         }
       ]
     });
     alert.present();
   }
+
+  goToAddPeriod() { 
+    this.navCtrl.push(AddPeriodPage, {
+      day: 'None'
+    });
+  }
 }
 
 interface day {
   day: string;
-  content: string;
+  period: number;
 }

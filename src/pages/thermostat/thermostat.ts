@@ -127,7 +127,7 @@ export class ThermostatPage {
 
   tempUp(){
     if(this.targetTemp < 29.6) {
-      this.targetTemp = this.targetTemp + 0.5;
+      this.targetTemp = Math.round((this.targetTemp + 0.5) * 10) / 10;
     } else {
       this.targetTemp = 30;
       this.presentTooHigh();
@@ -137,7 +137,7 @@ export class ThermostatPage {
 
   tempDown(){
     if(this.targetTemp > 5.4) {
-      this.targetTemp = this.targetTemp - 0.5;
+      this.targetTemp = Math.round((this.targetTemp - 0.5) * 10) / 10;
     } else {
       this.targetTemp = 5;
       this.presentTooLow();
@@ -212,7 +212,7 @@ export class ThermostatPage {
   presentLocked() {
     console.log("Schedule off!");
     let toast = this.toastCtrl.create({
-        message: 'The temperature is now locked and will NOT follow your schedule.',
+        message: 'The temperature is now locked. Your schedule will NOT be followed.',
         duration: 5500,
         position: 'top'
       });
@@ -222,7 +222,7 @@ export class ThermostatPage {
   presentUnlocked() {
     console.log("Schedule on!");
     let toast = this.toastCtrl.create({
-        message: 'The temperature is now unlocked and will change according to your schedule.',
+        message: 'The temperature is now unlocked. Your schedule will be followed.',
         duration: 5500,
         position: 'top'
       });
