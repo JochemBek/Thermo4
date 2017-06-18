@@ -19,6 +19,7 @@ export class DayPage {
   day: string;
   periods: any[];
   periodsAdv: Period[];
+  periodsAdv_old: Period[];
   canAdd: boolean;
   canClear: boolean;
 
@@ -41,6 +42,7 @@ export class DayPage {
     console.log(this.periods);
     this.periodsAdv = [];
     this.advPeriods();
+    this.periodsAdv_old = this.periodsAdv;
   }
 
   advPeriods() {
@@ -103,6 +105,16 @@ export class DayPage {
   parseTime(t) {
     return parseFloat(t.substr(0,2)) + parseFloat(t.substr(3,2))/60;
   }
+
+  updateCardTime(){
+    console.log(this.periodsAdv);
+    this.thermoService.clearDay(this.day);
+    for(var i = 0; i < this.periodsAdv.length; i++){
+       this.thermoService.addPeriod_with_parameters([this.day], this.periodsAdv[i].startTime , this.periodsAdv[i].endTime);
+    }
+    this.periodsAdv_old = this.periodsAdv;
+  }
+
 
 }
 

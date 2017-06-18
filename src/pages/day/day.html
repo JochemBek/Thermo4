@@ -14,6 +14,8 @@
 
 
 <ion-content no-padding>
+
+  <!-- HEADER  -->
   <ion-grid no-padding>
     <ion-row class="bg-dark">
         <ion-col col-8>
@@ -28,18 +30,20 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
+  <!-- INDIVIDUAL CARDS  -->
   <ion-card *ngFor="let period of periodsAdv">
     <ion-card-header>
       <ion-grid>
         <ion-row> 
           <ion-col col-6> 
             <ion-item>
-              <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [(ngModel)]="period.startTime"></ion-datetime>
+              <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" (ionChange)="updateCardTime()" [(ngModel)]="period.startTime"></ion-datetime>
             </ion-item>
           </ion-col>
           <ion-col col-6>
             <ion-item>
-              <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [(ngModel)]="period.endTime"></ion-datetime>
+              <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" (ionChange)="updateCardTime()" [(ngModel)]="period.endTime"></ion-datetime>
             </ion-item>
           </ion-col>
         </ion-row>
