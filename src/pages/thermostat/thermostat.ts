@@ -97,6 +97,8 @@ export class ThermostatPage {
 
   setTargetTemp(){
     if(!this.inputbusy) {
+      this.targetTemp = Math.round((this.targetTemp) * 10) / 10;
+      
       if(this.targetTemp == 30) {
         this.upenabled = false;
       }

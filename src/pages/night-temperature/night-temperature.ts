@@ -44,8 +44,10 @@ export class NightTemperaturePage {
       });
   }
 
-  setNightTemp(){
+  setNightTemp(){    
     if(!this.inputbusy) {
+      this.nightTemp = Math.round((this.nightTemp) * 10) / 10;
+      
       if(this.nightTemp == 30) {
         this.upenabled = false; 
       }

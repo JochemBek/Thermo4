@@ -44,8 +44,10 @@ export class DayTemperaturePage {
       });
   }
   
-  setDayTemp(){
+  setDayTemp(){    
     if(!this.inputbusy) {
+      this.dayTemp = Math.round((this.dayTemp) * 10) / 10;
+      
       if(this.dayTemp == 30) {
         this.upenabled = false; 
       }
