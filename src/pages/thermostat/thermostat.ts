@@ -29,7 +29,7 @@ export class ThermostatPage {
       temp.getCurrentTemperature();
       temp.getCurrentDay();
       temp.getCurrentTime();
-    }, 100);
+    }, 200);
   }
 
   ionViewWillEnter() {
