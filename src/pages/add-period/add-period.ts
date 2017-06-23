@@ -35,8 +35,8 @@ export class AddPeriodPage {
 
 
   public event = {
-    timeStarts: '07:43',
-    timeEnds: '09:00'
+    timeStarts: '08:00',
+    timeEnds: '20:00'
   }
 
   thService: any;

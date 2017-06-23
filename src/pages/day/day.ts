@@ -113,6 +113,7 @@ export class DayPage {
        this.thermoService.addPeriod_with_parameters([this.day], this.periodsAdv[i].startTime , this.periodsAdv[i].endTime);
     }
     this.periodsAdv_old = this.periodsAdv;
+    this.ionViewWillEnter();
   }
 
 
