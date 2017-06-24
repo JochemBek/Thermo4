@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular'; 
 import { ThermoService } from '../../app/services/thermo.service';
 import { AddPeriodPage } from '../add-period/add-period';
+import { ToastController } from 'ionic-angular';
 
 /**
  * Generated class for the DayPage page.
@@ -23,7 +24,10 @@ export class DayPage {
   canAdd: boolean;
   canClear: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService, private alertCtrl: AlertController) {
+  startTime_temporal: string;
+  endTime_temporal: string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private thermoService: ThermoService, private alertCtrl: AlertController, public toastCtrl: ToastController) {
     this.day = navParams.get('day');
   }
 
@@ -107,13 +111,33 @@ export class DayPage {
   }
 
   updateCardTime(){
+    console.log("Here");
     console.log(this.periodsAdv);
+    // First we check if the new  dates are valid dates
+    for(var i = 0; i < this.periodsAdv.length; i++){
+      if(this.periodsAdv[i].endTime<=this.periodsAdv[i].startTime){
+        console.log("ERROR!! endTime<startTime");
+        this.periodsAdv = this.periodsAdv_old;
+        this.ionViewWillEnter();
+        this.errorTimeChange();
+      }
+    }
     this.thermoService.clearDay(this.day);
     for(var i = 0; i < this.periodsAdv.length; i++){
        this.thermoService.addPeriod_with_parameters([this.day], this.periodsAdv[i].startTime , this.periodsAdv[i].endTime);
     }
     this.periodsAdv_old = this.periodsAdv;
     this.ionViewWillEnter();
+  }
+
+
+  errorTimeChange() {
+    let toast = this.toastCtrl.create({
+        message: 'Please fill in an end time that is later than the start time.',
+        duration: 4500,
+        position: 'top'
+      });
+      toast.present();
   }
 
 

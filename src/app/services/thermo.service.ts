@@ -50,8 +50,8 @@ export class ThermoService{
 
         this.DayProgramNum = [];
 
+        //this.clearWholeSchedule()
         this.getWeekProgram();
-
     }
 
     changeServer(server) {

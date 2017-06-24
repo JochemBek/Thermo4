@@ -129,7 +129,7 @@ export class ThermostatPage {
 
   tempUp(){
     if(this.targetTemp < 29.6) {
-      this.targetTemp = Math.round((this.targetTemp + 0.5) * 10) / 10;
+      this.targetTemp = Math.round((this.targetTemp + 0.1) * 10) / 10;
     } else {
       this.targetTemp = 30;
       this.presentTooHigh();
@@ -139,7 +139,7 @@ export class ThermostatPage {
 
   tempDown(){
     if(this.targetTemp > 5.4) {
-      this.targetTemp = Math.round((this.targetTemp - 0.5) * 10) / 10;
+      this.targetTemp = Math.round((this.targetTemp - 0.1) * 10) / 10;
     } else {
       this.targetTemp = 5;
       this.presentTooLow();
