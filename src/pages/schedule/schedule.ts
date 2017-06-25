@@ -109,6 +109,7 @@ export class SchedulePage {
             this.thermoService.clearWholeSchedule();
             this.canClear = false;
             this.canAdd = true;
+            this.ionViewWillEnter();
           }
         }
       ]

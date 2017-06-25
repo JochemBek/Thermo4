@@ -84,34 +84,56 @@ export class AddPeriodPage {
   }
 
   setPeriod(){
+    var nSelected = 0;
     if(this.parseTime(this.event.timeEnds) > this.parseTime(this.event.timeStarts)) {
       if (this.MON_checked==true) {
         this.days.push('Monday');
+        nSelected++;
       }
       if (this.TUE_checked==true) {
         this.days.push('Tuesday');
+        nSelected++;
       }
       if (this.WED_checked==true) {
         this.days.push('Wednesday');
+        nSelected++;
       }
       if (this.THU_checked==true) {
         this.days.push('Thursday');
+        nSelected++;
       }
       if (this.FRI_checked==true) {
         this.days.push('Friday');
+        nSelected++;
       }
       if (this.SAT_checked==true) {
         this.days.push('Saturday');
+        nSelected++;
       }
       if (this.SUN_checked==true) {
         this.days.push('Sunday');
+        nSelected++;
       }
-      this.thermoService.addPeriod_with_parameters(this.days, this.event.timeStarts, this.event.timeEnds);
 
-      this.navCtrl.pop();
+      if(nSelected<=0){
+         this.alertSelectOneOrMore();
+      }else{
+        this.thermoService.addPeriod_with_parameters(this.days, this.event.timeStarts, this.event.timeEnds);
+        this.navCtrl.pop();
+      }
+
     } else {
       this.presentTimeDif();
     }    
+  }
+
+  alertSelectOneOrMore() {
+    let toast = this.toastCtrl.create({
+        message: 'Please select one or more days',
+        duration: 4500,
+        position: 'top'
+      });
+      toast.present();
   }
 
   presentTimeDif() {
