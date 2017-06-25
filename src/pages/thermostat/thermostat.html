@@ -75,7 +75,7 @@
     <ion-row class="extra2-padding-right">
       <ion-col text-center>
         <ion-item no-lines> <!-- Below, you see [(ngModel)]: you only use this for inputs-elements. With this, you set the defined variable from thermostat.ts (targetTempTen here) to the input-element-value. This works two ways: if in this input the variable is changed, it is also changed in thermostat.ts, but also vice versa. -->
-          <ion-range [ngModel]="10*targetTemp" (ngModelChange)="targetTemp=$event/10" [disabled]="!inputenabled || inputbusy" min="50" max="300" step="5" snaps="true" debounce="300" (blur)="setTargetTemp()">
+          <ion-range [ngModel]="10*targetTemp" (ngModelChange)="targetTemp=$event/10" [disabled]="!inputenabled || inputbusy" min="50" max="300" step="5" snaps="true" debounce="500" (ionChange)="setTargetTemp()">
             <ion-icon range-left small name="thermometer"></ion-icon>
             <ion-icon range-right name="thermometer"></ion-icon>
           </ion-range>
